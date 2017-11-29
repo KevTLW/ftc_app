@@ -24,10 +24,12 @@ public class Tele_Default extends LinearOpMode {
         // Run until "STOP" is pressed
         while (opModeIsActive()) {
             // Drive speeds
-            leftSpeed = -gamepad1.left_stick_y;
-            rightSpeed = -gamepad1.right_stick_y;
-            robot.frontMotorLeft.setPower(leftSpeed);
-            robot.frontMotorRight.setPower(rightSpeed);
+            leftSpeed = gamepad1.left_stick_y;
+            rightSpeed = gamepad1.right_stick_y;
+            robot.frontLeftDrive.setPower(leftSpeed);
+            robot.backLeftDrive.setPower(leftSpeed);
+            robot.frontRightDrive.setPower(rightSpeed);
+            robot.backRightDrive.setPower(rightSpeed);
             
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);

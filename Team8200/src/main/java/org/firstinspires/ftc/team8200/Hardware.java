@@ -6,21 +6,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
     // Universal OpMode Properties
-    public DcMotor elevator;
-    public DcMotor frontMotorLeft;
-    public DcMotor frontMotorRight;
-    public DcMotor backMotorLeft;
-    public DcMotor backMotorRight;
-    public DcMotor harvesterMotorLeft;
-    public DcMotor harvesterMotorRight;
+    public DcMotor //elevator,
+                   frontLeftDrive, frontRightDrive,
+                   backLeftDrive, backRightDrive;
+                   //harvesterLeftMotor, harvesterRightMotor;
 
-    public Servo arm;
-    public Servo harvesterServoLeft;
-    public Servo harvesterServoRight;
-    public Servo holdTopLeft;
-    public Servo holdTopRight;
-    public Servo holdBottomLeft;
-    public Servo holdBottomRight;
+//    public Servo arm,
+//                 harvesterLeftServo, harvesterRightServo,
+//                 holdTopLeft, holdTopRight,
+//                 holdBottomLeft, holdBottomRight;
 
     // Local OpMode Properties
     HardwareMap hwMap;
@@ -34,47 +28,47 @@ public class Hardware {
         hwMap = hardwareMap;
 
         // Names for Hardware Configuration
-        elevator = hwMap.get(DcMotor.class, "elevator");
-        frontMotorLeft = hwMap.get(DcMotor.class, "frontMotorLeft");
-        frontMotorRight = hwMap.get(DcMotor.class, "frontMotorRight");
-        backMotorLeft = hwMap.get(DcMotor.class, "backMotorLeft");
-        backMotorRight = hwMap.get(DcMotor.class, "backMotorRight");
-        harvesterMotorLeft = hwMap.get(DcMotor.class, "harvesterMotorLeft");
-        harvesterMotorRight = hwMap.get(DcMotor.class, "harvesterMotorRight");
+        //elevator = hwMap.get(DcMotor.class, "elevator");
+        frontLeftDrive = hwMap.get(DcMotor.class, "frontLeftDrive");
+        frontRightDrive = hwMap.get(DcMotor.class, "frontRightDrive");
+        backLeftDrive = hwMap.get(DcMotor.class, "backLeftDrive");
+        backRightDrive = hwMap.get(DcMotor.class, "backRightDrive");
+        //harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
+        //harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
-        arm = hwMap.get(Servo.class, "arm");
-        harvesterServoLeft = hwMap.get(Servo.class, "harvesterServoLeft");
-        harvesterServoRight = hwMap.get(Servo.class, "harvesterServoRight");
-        holdTopLeft = hwMap.get(Servo.class, "holdTopLeft");
-        holdTopRight = hwMap.get(Servo.class, "holdTopRight");
-        holdBottomLeft = hwMap.get(Servo.class, "holdBottomLeft");
-        holdBottomRight = hwMap.get(Servo.class, "holdBottomRight");
+//        arm = hwMap.get(Servo.class, "arm");
+//        harvesterLeftServo = hwMap.get(Servo.class, "harvesterServoLeft");
+//        harvesterRightServo = hwMap.get(Servo.class, "harvesterServoRight");
+//        holdTopLeft = hwMap.get(Servo.class, "holdTopLeft");
+//        holdTopRight = hwMap.get(Servo.class, "holdTopRight");
+//        holdBottomLeft = hwMap.get(Servo.class, "holdBottomLeft");
+//        holdBottomRight = hwMap.get(Servo.class, "holdBottomRight");
 
         // Motor Direction
-        frontMotorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        backMotorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        frontMotorRight.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
-        backMotorRight.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
 
         // Set motors and servos to initial position
-        elevator.setPower(0);
-        frontMotorLeft.setPower(0);
-        frontMotorRight.setPower(0);
-        backMotorLeft.setPower(0);
-        backMotorRight.setPower(0);
-        harvesterMotorLeft.setPower(0);
-        harvesterMotorRight.setPower(0);
-        arm.setPosition(0);
+        //elevator.setPower(0);
+        frontLeftDrive.setPower(0);
+        frontRightDrive.setPower(0);
+        backLeftDrive.setPower(0);
+        backRightDrive.setPower(0);
+        //harvesterLeftMotor.setPower(0);
+        //harvesterRightMotor.setPower(0);
 
-        harvesterServoLeft.setPosition(0);
-        harvesterServoLeft.setPosition(0);
-        holdTopLeft.setPosition(0);
-        holdTopRight.setPosition(0);
-        holdBottomLeft.setPosition(0);
-        holdBottomRight.setPosition(0);
+//        arm.setPosition(0);
+//        harvesterLeftServo.setPosition(0);
+//        harvesterRightServo.setPosition(0);
+//        holdTopLeft.setPosition(0);
+//        holdTopRight.setPosition(0);
+//        holdBottomLeft.setPosition(0);
+//        holdBottomRight.setPosition(0);
 
         // Enable encoders
-        backMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

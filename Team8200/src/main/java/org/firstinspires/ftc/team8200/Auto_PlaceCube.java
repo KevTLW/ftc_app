@@ -76,8 +76,8 @@ public class Auto_PlaceCube extends LinearOpMode {
 
     // Pick up the cube
     public void pickUpCube() {
-        robot.holdBottomLeft.setPosition(ARM_CLOSED);
-        robot.holdBottomRight.setPosition(ARM_CLOSED);
+        //robot.holdBottomLeft.setPosition(ARM_CLOSED);
+        //robot.holdBottomRight.setPosition(ARM_CLOSED);
     }
 
     // Read and store the value of the pattern
@@ -118,39 +118,39 @@ public class Auto_PlaceCube extends LinearOpMode {
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.backMotorLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.backMotorRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            robot.backMotorLeft.setTargetPosition(newLeftTarget);
-            robot.backMotorRight.setTargetPosition(newRightTarget);
+            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            robot.frontLeftDrive.setTargetPosition(newLeftTarget);
+            robot.frontRightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.backMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Reset the timeout time and start motion
             runtime.reset();
-            robot.backMotorLeft.setPower(Math.abs(speed));
-            robot.backMotorRight.setPower(Math.abs(speed));
+            robot.frontLeftDrive.setPower(Math.abs(speed));
+            robot.frontRightDrive.setPower(Math.abs(speed));
 
             // Stop all motion
-            robot.backMotorLeft.setPower(0);
-            robot.backMotorRight.setPower(0);
+            robot.frontLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.backMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 
     // Reset encoders and kill motors
     public void stopAndResetEncoders() {
-        robot.backMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.backMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         sleep(50); // Wait 50ms to make sure it fully processes
 
-        robot.backMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.backMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
