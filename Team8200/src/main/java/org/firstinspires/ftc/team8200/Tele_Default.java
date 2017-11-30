@@ -30,7 +30,15 @@ public class Tele_Default extends LinearOpMode {
             robot.backLeftDrive.setPower(leftSpeed);
             robot.frontRightDrive.setPower(rightSpeed);
             robot.backRightDrive.setPower(rightSpeed);
-            
+
+            if (gamepad1.left_bumper) {
+                robot.holdBottomLeft.setPosition(.25);
+                robot.holdBottomRight.setPosition(.9);
+            } else if (gamepad1.right_bumper) {
+                robot.holdBottomLeft.setPosition(.6);
+                robot.holdBottomRight.setPosition(.35);
+            }
+
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
