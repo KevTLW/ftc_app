@@ -28,42 +28,42 @@ public class Hardware {
         hwMap = hardwareMap;
 
         // Names for Hardware Configuration
-        //elevator = hwMap.get(DcMotor.class, "elevator");
+//        elevator = hwMap.get(DcMotor.class, "elevator");
         frontLeftDrive = hwMap.get(DcMotor.class, "frontLeftDrive");
         frontRightDrive = hwMap.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hwMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hwMap.get(DcMotor.class, "backRightDrive");
-        harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
-        harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
+//        harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
+//        harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
-        arm = hwMap.get(Servo.class, "arm");
-        harvesterLeftServo = hwMap.get(Servo.class, "harvesterServoLeft");
-        harvesterRightServo = hwMap.get(Servo.class, "harvesterServoRight");
-        holdTopLeft = hwMap.get(Servo.class, "holdTopLeft");
-        holdTopRight = hwMap.get(Servo.class, "holdTopRight");
+//        arm = hwMap.get(Servo.class, "arm");
+//        harvesterLeftServo = hwMap.get(Servo.class, "harvesterServoLeft");
+//        harvesterRightServo = hwMap.get(Servo.class, "harvesterServoRight");
+//        holdTopLeft = hwMap.get(Servo.class, "holdTopLeft");
+//        holdTopRight = hwMap.get(Servo.class, "holdTopRight");
         holdBottomLeft = hwMap.get(Servo.class, "holdBottomLeft");
         holdBottomRight = hwMap.get(Servo.class, "holdBottomRight");
 
         // Motor Direction
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        backLeftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        frontRightDrive.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
-        backRightDrive.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Set motors and servos to initial position
-        //elevator.setPower(0);
+//        elevator.setPower(0);
         frontLeftDrive.setPower(0);
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
         backRightDrive.setPower(0);
-        harvesterLeftMotor.setPower(0);
-        harvesterRightMotor.setPower(0);
+//        harvesterLeftMotor.setPower(0);
+//        harvesterRightMotor.setPower(0);
 
-        arm.setPosition(0);
-        harvesterLeftServo.setPosition(0);
-        harvesterRightServo.setPosition(0);
-        holdTopLeft.setPosition(0);
-        holdTopRight.setPosition(0);
+//        arm.setPosition(0);
+//        harvesterLeftServo.setPosition(0);
+//        harvesterRightServo.setPosition(0);
+//        holdTopLeft.setPosition(0);
+//        holdTopRight.setPosition(0);
         holdBottomLeft.setPosition(.6);
         holdBottomRight.setPosition(.35);
 

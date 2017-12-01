@@ -84,7 +84,9 @@ public class Auto_PlaceCube extends LinearOpMode {
     public void readPattern() {readVuMark();}
 
     // Move forward to Gems
-    public void moveToGems() {}
+    public void moveToGems() {
+        move(DRIVE_SPEED, -20, -20, 5);
+    }
 
     // Scan Gems' colors
     public void scanGemColor() {readColor();}
@@ -122,19 +124,27 @@ public class Auto_PlaceCube extends LinearOpMode {
             newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             robot.frontLeftDrive.setTargetPosition(newLeftTarget);
             robot.frontRightDrive.setTargetPosition(newRightTarget);
+            robot.backLeftDrive.setTargetPosition(newLeftTarget);
+            robot.backRightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
             robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Reset the timeout time and start motion
             runtime.reset();
             robot.frontLeftDrive.setPower(Math.abs(speed));
             robot.frontRightDrive.setPower(Math.abs(speed));
+            robot.backLeftDrive.setPower(Math.abs(speed));
+            robot.backRightDrive.setPower(Math.abs(speed));
 
             // Stop all motion
             robot.frontLeftDrive.setPower(0);
             robot.frontRightDrive.setPower(0);
+            robot.backLeftDrive.setPower(0);
+            robot.backRightDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
