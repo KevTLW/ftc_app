@@ -36,7 +36,7 @@ public class Hardware {
 //        harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
 //        harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
-//        arm = hwMap.get(Servo.class, "arm");
+        arm = hwMap.get(Servo.class, "arm");
 //        harvesterLeftServo = hwMap.get(Servo.class, "harvesterServoLeft");
 //        harvesterRightServo = hwMap.get(Servo.class, "harvesterServoRight");
 //        holdTopLeft = hwMap.get(Servo.class, "holdTopLeft");
@@ -45,8 +45,6 @@ public class Hardware {
         holdBottomRight = hwMap.get(Servo.class, "holdBottomRight");
 
         // Motor Direction
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
@@ -59,7 +57,7 @@ public class Hardware {
 //        harvesterLeftMotor.setPower(0);
 //        harvesterRightMotor.setPower(0);
 
-//        arm.setPosition(0);
+        arm.setPosition(.8);
 //        harvesterLeftServo.setPosition(0);
 //        harvesterRightServo.setPosition(0);
 //        holdTopLeft.setPosition(0);

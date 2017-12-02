@@ -25,15 +25,15 @@ public class Auto_PlaceCube extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     // Static variables for general use
-    static final double DRIVE_SPEED = .5;
+    static final double DRIVE_SPEED = -.5;
     static final double DRIVE_SLOW_SPEED = .1;
     static final double TURN_SPEED = 1;
     static final double ARM_CLOSED = .3;
 
     // Static variables for encoders
-    static final double COUNTS_PER_MOTOR_REV = 280; // Source: NeveRest 40 Specifications Sheet
+    static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
     static final double DRIVE_GEAR_REDUCTION = 40.0;
-    static final double WHEEL_DIAMETER_INCHES = 2.8; // For figuring circumference
+    static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
     static final double PI = 3.1415;
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
@@ -57,45 +57,40 @@ public class Auto_PlaceCube extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        pickUpCube();
+        useSensors();
         sleep(1000);
-        readPattern();
+        hitGem();
         sleep(1000);
-        moveToGems();
-        sleep(1000);
-        scanGemColor();
-        sleep(1000);
-        pushGem();
-        sleep(1000);
-        alignToCryptobox();
+        goToCryptobox();
         sleep(1000);
         findColumn();
         sleep(1000);
         dropGlyph();
     }
 
-    // Pick up the cube
-    public void pickUpCube() {
-        //robot.holdBottomLeft.setPosition(ARM_CLOSED);
-        //robot.holdBottomRight.setPosition(ARM_CLOSED);
+    // Store the value of the vuMark and the color of the gem
+    public void useSensors() {
+        readVuMark();
+        readColor();
     }
-
-    // Read and store the value of the pattern
-    public void readPattern() {readVuMark();}
 
     // Move forward to Gems
-    public void moveToGems() {
-        move(DRIVE_SPEED, -20, -20, 5);
+    public void hitGem() {
+        robot.arm.setPosition(0);
+        if (color.equals("red")) {
+//            move(); //Forward
+        } else if (color.equals("blue")) {
+//            move(); //Backwards
+        }
+        robot.arm.setPosition(.8);
     }
 
-    // Scan Gems' colors
-    public void scanGemColor() {readColor();}
-
-    // Push correct Gem
-    public void pushGem() {}
-
-    // Rotate to Cryptobox
-    public void alignToCryptobox() {}
+    // Go to Cryptobox
+    public void goToCryptobox() {
+        move(DRIVE_SPEED, 24, 24, 5);
+        turn(-90);
+        move(DRIVE_SPEED, 5, 5, 3);
+    }
 
     // Find correct column
     public void findColumn() {
@@ -124,31 +119,32 @@ public class Auto_PlaceCube extends LinearOpMode {
             newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             robot.frontLeftDrive.setTargetPosition(newLeftTarget);
             robot.frontRightDrive.setTargetPosition(newRightTarget);
-            robot.backLeftDrive.setTargetPosition(newLeftTarget);
-            robot.backRightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
             robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // Reset the timeout time and start motion
+            // Reset the timeout time and start motion.
             runtime.reset();
             robot.frontLeftDrive.setPower(Math.abs(speed));
             robot.frontRightDrive.setPower(Math.abs(speed));
-            robot.backLeftDrive.setPower(Math.abs(speed));
-            robot.backRightDrive.setPower(Math.abs(speed));
+
+            // Keep looping while we are still active, and there is time left, and both motors are running.
+            while (opModeIsActive() && (runtime.seconds() < timeoutS) && (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy())) {
+                telemetry.addData("Destination", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Current Position", "Running at %7d :%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+                telemetry.update();
+            }
 
             // Stop all motion
             robot.frontLeftDrive.setPower(0);
             robot.frontRightDrive.setPower(0);
-            robot.backLeftDrive.setPower(0);
-            robot.backRightDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
             robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(250);   // optional pause after each move
         }
     }
 
@@ -161,6 +157,9 @@ public class Auto_PlaceCube extends LinearOpMode {
 
         robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        telemetry.addData("Current Position",  "Left: %7d Right:%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+        telemetry.update();
     }
 
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
