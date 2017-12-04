@@ -107,7 +107,7 @@ public class Auto_PlaceCube extends LinearOpMode {
     // Drop Glyph
     public void dropGlyph() {}
 
-    // Encoder enabler
+    // Move with encoders
     public void move(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
