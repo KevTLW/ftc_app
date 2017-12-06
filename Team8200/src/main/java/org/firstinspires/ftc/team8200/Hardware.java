@@ -14,7 +14,8 @@ public class Hardware {
     public Servo arm,
                  harvesterLeftServo, harvesterRightServo,
                  holdTopLeft, holdTopRight,
-                 holdBottomLeft, holdBottomRight;
+                 holdBottomLeft, holdBottomRight,
+                 liftLeft, liftRight;
 
     // Local OpMode Properties
     HardwareMap hwMap;
@@ -43,6 +44,8 @@ public class Hardware {
 //        holdTopRight = hwMap.get(Servo.class, "holdTopRight");
         holdBottomLeft = hwMap.get(Servo.class, "holdBottomLeft");
         holdBottomRight = hwMap.get(Servo.class, "holdBottomRight");
+//        liftLeft = hwMap.get(Servo.class, "liftLeft");
+//        liftRight = hwMap.get(Servo.class, "liftRight");
 
         // Motor Direction
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -64,6 +67,8 @@ public class Hardware {
 //        holdTopRight.setPosition(0);
         holdBottomLeft.setPosition(.6);
         holdBottomRight.setPosition(.35);
+//        liftLeft.setPosition(0);
+//        liftRight.setPosition(0);
 
         // Enable encoders
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

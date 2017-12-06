@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.team8200;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -15,12 +15,12 @@ public class Test_Encoders extends LinearOpMode {
     // Static variables for general use
     static final double DRIVE_SPEED = -.5;
     static final double DRIVE_SLOW_SPEED = .1;
-    static final double TURN_SPEED = 1;
+    static final double TURN_SPEED = -.5;
 
     // Static variables for encoders
-    static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
+    static final double COUNTS_PER_MOTOR_REV = 28.0; // Source: NeveRest 40 Specifications Sheet
     static final double DRIVE_GEAR_REDUCTION = 40.0;
-    static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
+    static final double WHEEL_DIAMETER_INCHES = 4.0; // For figuring circumference
     static final double PI = 3.1415;
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
@@ -36,13 +36,28 @@ public class Test_Encoders extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        move(DRIVE_SPEED, 24, 24, 10);
-        sleep(5000);
-        turn(90);
-        sleep(5000);
-        move(DRIVE_SPEED, -24, -24,10);
-        sleep(5000);
+//        move(DRIVE_SPEED, 24, 24, 10);
+//        sleep(5000);
+//        turn(90);
+//        sleep(5000);
+//        move(DRIVE_SPEED, -24, -24,10);
+//        sleep(5000);
+//        turn(-90);
         turn(-90);
+        sleep(1000);
+        turn(90);
+        sleep(1000);
+        turn(-180);
+        sleep(1000);
+        turn(180);
+        sleep(1000);
+        turn(-270);
+        sleep(1000);
+        turn(270);
+        sleep(1000);
+        turn(-360);
+        sleep(1000);
+        turn(360);
     }
 
     // Move with encoders
@@ -103,12 +118,10 @@ public class Test_Encoders extends LinearOpMode {
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
     public void turn(double degrees) {
         stopAndResetEncoders(); // Reset encoders
-        double motorInches = degrees * .1;
-        if (degrees > 0) { // CW turns
-            move(TURN_SPEED, motorInches, -motorInches, 5000);
-        }
-        else if (degrees < 0) { // CCW turns
-            move(TURN_SPEED, -motorInches, motorInches, 5000);
-        }
+        // TODO Modify this
+        double circumferenceWheel = 4 * PI;
+        double circumferenceRobot = 18 * PI;
+        double angle = (circumferenceWheel / circumferenceRobot) * (degrees / 360);
+
     }
 }

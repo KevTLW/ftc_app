@@ -27,7 +27,7 @@ public class Auto_PlaceCube extends LinearOpMode {
     // Static variables for general use
     static final double DRIVE_SPEED = -.5;
     static final double DRIVE_SLOW_SPEED = .1;
-    static final double TURN_SPEED = 1;
+    static final double TURN_SPEED = -.5;
     static final double ARM_CLOSED = .3;
 
     // Static variables for encoders
