@@ -107,10 +107,6 @@ public class Test_Encoders extends LinearOpMode {
         stopAndResetEncoders(); // Reset encoders
         double arc = degrees / 360.0;
         double turnInches = CIRCUMFERENCE * arc;
-        if (degrees < 0) {
-            move(TURN_SPEED, -turnInches, turnInches, 5.0);
-        } else if (degrees > 0) {
-            move(TURN_SPEED, turnInches, -turnInches, 5.0);
-        }
+        move(TURN_SPEED, turnInches, -turnInches, 5);
     }
 }

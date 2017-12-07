@@ -60,15 +60,15 @@ public class Auto_PlaceCube extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        useSensors();
-        sleep(1000);
-        hitGem();
-        sleep(1000);
+//        useSensors();
+//        sleep(1000);
+//        hitGem();
+//        sleep(1000);
         goToCryptobox();
-        sleep(1000);
-        findColumn();
-        sleep(1000);
-        dropGlyph();
+//        sleep(1000);
+//        findColumn();
+//        sleep(1000);
+//        dropGlyph();
     }
 
     // Store the value of the vuMark and the color of the gem
@@ -90,9 +90,9 @@ public class Auto_PlaceCube extends LinearOpMode {
 
     // Go to Cryptobox
     public void goToCryptobox() {
-        move(DRIVE_SPEED, 24, 24, 5);
-        turn(-90);
-        move(DRIVE_SPEED, 5, 5, 3);
+//        move(DRIVE_SPEED, 21, 21, 5);
+        turn(90);
+
     }
 
     // Find correct column
@@ -134,9 +134,9 @@ public class Auto_PlaceCube extends LinearOpMode {
 
             // Keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() && (runtime.seconds() < timeoutS) && (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy())) {
-                telemetry.addData("Destination", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-                telemetry.addData("Current Position", "Running at %7d :%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
-                telemetry.update();
+//                telemetry.addData("Destination", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+//                telemetry.addData("Current Position", "Running at %7d :%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+//                telemetry.update();
             }
 
             // Stop all motion
@@ -170,11 +170,7 @@ public class Auto_PlaceCube extends LinearOpMode {
         stopAndResetEncoders(); // Reset encoders
         double arc = degrees / 360.0;
         double turnInches = CIRCUMFERENCE * arc;
-        if (degrees < 0) {
-            move(TURN_SPEED, -turnInches, turnInches, 5.0);
-        } else if (degrees > 0) {
-            move(TURN_SPEED, turnInches, -turnInches, 5.0);
-        }
+        move(TURN_SPEED, turnInches, -turnInches, 5);
     }
 
     public String readVuMark() {
