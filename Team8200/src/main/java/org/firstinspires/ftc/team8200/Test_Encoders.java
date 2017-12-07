@@ -24,7 +24,7 @@ public class Test_Encoders extends LinearOpMode {
     static final double COUNTS_PER_INCH = (PULSES_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
     // Static variables for turning with encoders
-    static final double CIRCUMFERENCE = 28; // Use move() method to find the "magic number" that will rotate the robot 360 degrees
+    static final double CIRCUMFERENCE = 54; // Use move() method to find the "magic number" that will rotate the robot 360 degrees
 
     @Override
     public void runOpMode() {
@@ -38,11 +38,13 @@ public class Test_Encoders extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        turn();
-        sleep(10000);
-        turn();
-        sleep(10000);
-        turn();
+        turn(360);
+        sleep(1000);
+        turn(270);
+        sleep(1000);
+        turn(180);
+        sleep(1000);
+        turn(90);
     }
 
     // Move with encoders
@@ -101,10 +103,8 @@ public class Test_Encoders extends LinearOpMode {
     }
 
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
-    public void turn() {
+    public void turn(double degrees) {
         stopAndResetEncoders(); // Reset encoders
-        move(TURN_SPEED, 28, -28, 5000);
-        /* TODO Add degrees as a parameter
         double arc = degrees / 360.0;
         double turnInches = CIRCUMFERENCE * arc;
         if (degrees < 0) {
@@ -112,6 +112,5 @@ public class Test_Encoders extends LinearOpMode {
         } else if (degrees > 0) {
             move(TURN_SPEED, turnInches, -turnInches, 5.0);
         }
-        */
     }
 }

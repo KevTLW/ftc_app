@@ -37,6 +37,9 @@ public class Auto_PlaceCube extends LinearOpMode {
     static final double PI = 3.1415;
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
+    // Static variables for turning with encoders
+    static final double CIRCUMFERENCE = 54; // Use move() method to find the "magic number" that will rotate the robot 360 degrees
+
     // Static variables for sensors
     private String vuMarkPattern = "";
     private String color = "";
@@ -165,11 +168,12 @@ public class Auto_PlaceCube extends LinearOpMode {
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
     public void turn(double degrees) {
         stopAndResetEncoders(); // Reset encoders
-        double motorInches = degrees * .1;
-        if (degrees > 0) { // CW turns
-            move(TURN_SPEED, motorInches, -motorInches, 5000);
-        } else if (degrees < 0) { // CCW turns
-            move(TURN_SPEED, -motorInches, motorInches, 5000);
+        double arc = degrees / 360.0;
+        double turnInches = CIRCUMFERENCE * arc;
+        if (degrees < 0) {
+            move(TURN_SPEED, -turnInches, turnInches, 5.0);
+        } else if (degrees > 0) {
+            move(TURN_SPEED, turnInches, -turnInches, 5.0);
         }
     }
 
