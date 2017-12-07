@@ -32,7 +32,7 @@ public class Auto_PlaceCube extends LinearOpMode {
 
     // Static variables for encoders
     static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
-    static final double DRIVE_GEAR_REDUCTION = 40.0;
+    static final double DRIVE_GEAR_REDUCTION = 40;
     static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
     static final double PI = 3.1415;
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
@@ -71,12 +71,12 @@ public class Auto_PlaceCube extends LinearOpMode {
     // Store the value of the vuMark and the color of the gem
     public void useSensors() {
         readVuMark();
+        robot.arm.setPosition(0);
         readColor();
     }
 
     // Move forward to Gems
     public void hitGem() {
-        robot.arm.setPosition(0);
         if (color.equals("red")) {
 //            move(); //Forward
         } else if (color.equals("blue")) {
@@ -168,8 +168,7 @@ public class Auto_PlaceCube extends LinearOpMode {
         double motorInches = degrees * .1;
         if (degrees > 0) { // CW turns
             move(TURN_SPEED, motorInches, -motorInches, 5000);
-        }
-        else if (degrees < 0) { // CCW turns
+        } else if (degrees < 0) { // CCW turns
             move(TURN_SPEED, -motorInches, motorInches, 5000);
         }
     }

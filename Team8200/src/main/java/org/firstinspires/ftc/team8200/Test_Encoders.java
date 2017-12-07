@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.team8200;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,11 +17,14 @@ public class Test_Encoders extends LinearOpMode {
     static final double TURN_SPEED = -.5;
 
     // Static variables for encoders
-    static final double COUNTS_PER_MOTOR_REV = 28.0; // Source: NeveRest 40 Specifications Sheet
-    static final double DRIVE_GEAR_REDUCTION = 40.0;
-    static final double WHEEL_DIAMETER_INCHES = 4.0; // For figuring circumference
+    static final double PULSES_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
+    static final double DRIVE_GEAR_REDUCTION = 40;
+    static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
     static final double PI = 3.1415;
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
+    static final double COUNTS_PER_INCH = (PULSES_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
+
+    // Static variables for turning with encoders
+    static final double CIRCUMFERENCE = 28; // Use move() method to find the "magic number" that will rotate the robot 360 degrees
 
     @Override
     public void runOpMode() {
@@ -36,28 +38,11 @@ public class Test_Encoders extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-//        move(DRIVE_SPEED, 24, 24, 10);
-//        sleep(5000);
-//        turn(90);
-//        sleep(5000);
-//        move(DRIVE_SPEED, -24, -24,10);
-//        sleep(5000);
-//        turn(-90);
-        turn(-90);
-        sleep(1000);
-        turn(90);
-        sleep(1000);
-        turn(-180);
-        sleep(1000);
-        turn(180);
-        sleep(1000);
-        turn(-270);
-        sleep(1000);
-        turn(270);
-        sleep(1000);
-        turn(-360);
-        sleep(1000);
-        turn(360);
+        turn();
+        sleep(10000);
+        turn();
+        sleep(10000);
+        turn();
     }
 
     // Move with encoders
@@ -111,17 +96,22 @@ public class Test_Encoders extends LinearOpMode {
         robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry.addData("Current Position",  "Left: %7d Right:%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+        telemetry.addData("Current Position",  "Left: %7d Right: %7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
         telemetry.update();
     }
 
     // Rotate with encoders ( > 0 goes CW, < 0 goes CCW )
-    public void turn(double degrees) {
+    public void turn() {
         stopAndResetEncoders(); // Reset encoders
-        // TODO Modify this
-        double circumferenceWheel = 4 * PI;
-        double circumferenceRobot = 18 * PI;
-        double angle = (circumferenceWheel / circumferenceRobot) * (degrees / 360);
-
+        move(TURN_SPEED, 28, -28, 5000);
+        /* TODO Add degrees as a parameter
+        double arc = degrees / 360.0;
+        double turnInches = CIRCUMFERENCE * arc;
+        if (degrees < 0) {
+            move(TURN_SPEED, -turnInches, turnInches, 5.0);
+        } else if (degrees > 0) {
+            move(TURN_SPEED, turnInches, -turnInches, 5.0);
+        }
+        */
     }
 }
