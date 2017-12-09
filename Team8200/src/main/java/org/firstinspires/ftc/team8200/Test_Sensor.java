@@ -6,21 +6,16 @@ import android.view.View;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import java.util.Locale;
 
 @Autonomous(name="Color Test", group ="Testing")
 public class Test_Sensor extends LinearOpMode {
     // Import objects used in robot
     ColorSensor colorSensor;
-    DistanceSensor distanceSensor;
 
     @Override
     public void runOpMode() {
         // Names for Hardware Configuration
         colorSensor = hardwareMap.get(ColorSensor.class, "sensor");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "sensor");
 
         // Store HSV Values
         float hsvValues[] = {0F, 0F, 0F};
@@ -43,7 +38,6 @@ public class Test_Sensor extends LinearOpMode {
             Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR), (int) (colorSensor.green() * SCALE_FACTOR), (int) (colorSensor.blue() * SCALE_FACTOR), hsvValues);
 
             // Show values at Driver Station
-            telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", distanceSensor.getDistance(DistanceUnit.CM)));
             telemetry.addData("Alpha", colorSensor.alpha());
             telemetry.addData("Red  ", colorSensor.red());
             telemetry.addData("Green", colorSensor.green());

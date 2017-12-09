@@ -5,15 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import java.util.Locale;
 
 @Autonomous(name = "PlaceCube", group = "Autonomous")
 public class Auto_PlaceCube extends LinearOpMode {
@@ -21,14 +18,10 @@ public class Auto_PlaceCube extends LinearOpMode {
     Hardware robot = new Hardware();
     VuforiaLocalizer vuforia;
     ColorSensor colorSensor;
-    DistanceSensor distanceSensor;
     private ElapsedTime runtime = new ElapsedTime();
 
     // Static variables for general use
-    static final double DRIVE_SPEED = -.5;
-    static final double DRIVE_SLOW_SPEED = .1;
-    static final double TURN_SPEED = -.5;
-    static final double ARM_CLOSED = .3;
+    static final double SPEED = -.5;
 
     // Static variables for encoders
     static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
@@ -38,7 +31,7 @@ public class Auto_PlaceCube extends LinearOpMode {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
     // Static variables for turning with encoders
-    static final double CIRCUMFERENCE = 54; // Use move() method to find the "magic number" that will rotate the robot 360 degrees
+    static final double CIRCUMFERENCE = 54; // Amount of inches that rotate the robot 360 degrees
 
     // Static variables for sensors
     private String vuMarkPattern = "";
@@ -51,7 +44,6 @@ public class Auto_PlaceCube extends LinearOpMode {
 
         // Names for Hardware Configuration
         colorSensor = hardwareMap.get(ColorSensor.class, "sensor");
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "sensor");
 
         // Reset encoders
         stopAndResetEncoders();
@@ -60,15 +52,20 @@ public class Auto_PlaceCube extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
+        holdGlyph();
+        sleep(1000);
 //        useSensors();
 //        sleep(1000);
 //        hitGem();
 //        sleep(1000);
         goToCryptobox();
 //        sleep(1000);
-//        findColumn();
-//        sleep(1000);
-//        dropGlyph();
+        dropGlyph();
+    }
+
+    public void holdGlyph() {
+        robot.holdLeft.setPosition(.24);
+        robot.holdRight.setPosition(.74);
     }
 
     // Store the value of the vuMark and the color of the gem
@@ -90,25 +87,27 @@ public class Auto_PlaceCube extends LinearOpMode {
 
     // Go to Cryptobox
     public void goToCryptobox() {
-//        move(DRIVE_SPEED, 21, 21, 5);
-        turn(90);
-
-    }
-
-    // Find correct column
-    public void findColumn() {
+        move(SPEED, 28, 28, 5);
+        turn(-90);
         if (vuMarkPattern.equals("left")) {
             telemetry.addData("Column", "l");
+            move(SPEED, -3, -3, 5);
         } else if (vuMarkPattern.equals("center")) {
             telemetry.addData("Column", "c");
+            move(SPEED, 8, 8, 5);
         } else if (vuMarkPattern.equals("right")) {
             telemetry.addData("Column", "r");
+        move(SPEED, 12, 12, 5);
         }
         telemetry.update();
+        turn(90);
     }
-
     // Drop Glyph
-    public void dropGlyph() {}
+    public void dropGlyph() {
+        robot.holdLeft.setPosition(.59);
+        robot.holdRight.setPosition(.41);
+        move(SPEED, 6, 6, 5);
+    }
 
     // Move with encoders
     public void move(double speed, double leftInches, double rightInches, double timeoutS) {
@@ -134,9 +133,9 @@ public class Auto_PlaceCube extends LinearOpMode {
 
             // Keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() && (runtime.seconds() < timeoutS) && (robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy())) {
-//                telemetry.addData("Destination", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-//                telemetry.addData("Current Position", "Running at %7d :%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
-//                telemetry.update();
+                telemetry.addData("Destination", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Current Position", "Running at %7d :%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+                telemetry.update();
             }
 
             // Stop all motion
@@ -170,7 +169,7 @@ public class Auto_PlaceCube extends LinearOpMode {
         stopAndResetEncoders(); // Reset encoders
         double arc = degrees / 360.0;
         double turnInches = CIRCUMFERENCE * arc;
-        move(TURN_SPEED, turnInches, -turnInches, 5);
+        move(SPEED, turnInches, -turnInches, 5);
     }
 
     public String readVuMark() {
@@ -228,10 +227,9 @@ public class Auto_PlaceCube extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive()) {
             // Convert from RGB to HSV
-            Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR), (int) (colorSensor.green() * SCALE_FACTOR), (int) (colorSensor.blue() * SCALE_FACTOR), hsvValues);
+            Color.RGBToHSV((int)(colorSensor.red() * SCALE_FACTOR), (int)(colorSensor.green() * SCALE_FACTOR), (int)(colorSensor.blue() * SCALE_FACTOR), hsvValues);
 
             // Show values at Driver Station
-            telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", distanceSensor.getDistance(DistanceUnit.CM)));
             telemetry.addData("Alpha", colorSensor.alpha());
             telemetry.addData("Red  ", colorSensor.red());
             telemetry.addData("Green", colorSensor.green());

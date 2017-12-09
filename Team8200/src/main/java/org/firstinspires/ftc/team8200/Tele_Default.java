@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Default", group="TeleOp")
 public class Tele_Default extends LinearOpMode {
@@ -24,6 +25,9 @@ public class Tele_Default extends LinearOpMode {
 
         // Run until "STOP" is pressed
         while (opModeIsActive()) {
+
+            /* Player One */
+
             // Drive speeds
             leftSpeed = -gamepad1.left_stick_y;
             rightSpeed = -gamepad1.right_stick_y;
@@ -32,29 +36,44 @@ public class Tele_Default extends LinearOpMode {
             robot.frontRightDrive.setPower(rightSpeed);
             robot.backRightDrive.setPower(rightSpeed);
 
-            // Glyph Holder
-            if (gamepad1.left_bumper) {
-                robot.holdBottomLeft.setPosition(.25);
-                robot.holdBottomRight.setPosition(.9);
-            } else if (gamepad1.right_bumper) {
-                robot.holdBottomLeft.setPosition(.7);
-                robot.holdBottomRight.setPosition(.25);
-            }
-
-            // Arm
-            if (gamepad1.a) {
-                robot.arm.setPosition(.8);
-            } else if (gamepad1.b) {
-                robot.arm.setPosition(0);
-            }
-
             // Balance on board
             if (gamepad1.dpad_down) {
-                robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                robot.backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                robot.backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.liftLeft.setPosition(1);
+                robot.liftRight.setPosition(1);
             }
+
+            /* Player Two */
+
+            // Glyph Holder
+            if (gamepad2.left_bumper) {
+                robot.holdLeft.setPosition(.59);
+                robot.holdRight.setPosition(.41);
+            } else if (gamepad2.right_bumper) {
+                robot.holdLeft.setPosition(.24);
+                robot.holdRight.setPosition(.74);
+            }
+
+            // Elevator
+            double elevatorSpeed = 0;
+            if (gamepad2.right_trigger > 0.5) {
+                elevatorSpeed = .2;
+            } else if (gamepad2.left_trigger > 0.5) {
+                elevatorSpeed = -.2;
+            }
+            robot.elevator.setPower(elevatorSpeed);
+
+            // Harvester servo
+            if (gamepad2.y) {
+                robot.harvesterLeftServo.setPosition(1);
+                robot.harvesterRightServo.setPosition(1);
+            }
+
+            //Harvester motor
+            if (gamepad2.x) {
+                robot.harvesterLeftMotor.setPower(-1);
+                robot.harvesterRightMotor.setPower(1);
+            }
+
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
