@@ -25,8 +25,7 @@ public class Tele_Default extends LinearOpMode {
 
         // Run until "STOP" is pressed
         while (opModeIsActive()) {
-
-            /* Player One */
+            /* Player 1 */
 
             // Drive speeds
             leftSpeed = -gamepad1.left_stick_y;
@@ -40,18 +39,12 @@ public class Tele_Default extends LinearOpMode {
             if (gamepad1.dpad_down) {
                 robot.liftLeft.setPosition(1);
                 robot.liftRight.setPosition(1);
+            } else if (gamepad1.dpad_up) {
+                robot.liftLeft.setPosition(0);
+                robot.liftRight.setPosition(0);
             }
 
-            /* Player Two */
-
-            // Glyph Holder
-            if (gamepad2.left_bumper) {
-                robot.holdLeft.setPosition(.59);
-                robot.holdRight.setPosition(.41);
-            } else if (gamepad2.right_bumper) {
-                robot.holdLeft.setPosition(.24);
-                robot.holdRight.setPosition(.74);
-            }
+            /* Player 2 */
 
             // Elevator
             double elevatorSpeed = 0;
@@ -62,18 +55,14 @@ public class Tele_Default extends LinearOpMode {
             }
             robot.elevator.setPower(elevatorSpeed);
 
-            // Harvester servo
-            if (gamepad2.y) {
-                robot.harvesterLeftServo.setPosition(1);
-                robot.harvesterRightServo.setPosition(1);
+            // Glyph Holder
+            if (gamepad2.left_bumper) {
+                robot.holdLeft.setPosition(.59);
+                robot.holdRight.setPosition(.41);
+            } else if (gamepad2.right_bumper) {
+                robot.holdLeft.setPosition(.24);
+                robot.holdRight.setPosition(.74);
             }
-
-            //Harvester motor
-            if (gamepad2.x) {
-                robot.harvesterLeftMotor.setPower(-1);
-                robot.harvesterRightMotor.setPower(1);
-            }
-
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);

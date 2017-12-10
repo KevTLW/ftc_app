@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.team8200;
 
 import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-@Autonomous(name = "PlaceCube", group = "Autonomous")
-public class Auto_PlaceCube extends LinearOpMode {
+@Autonomous(name = "Blue", group = "Autonomous")
+public class Auto_PlaceCube_Blue extends LinearOpMode {
     // Import objects used in robot
     Hardware robot = new Hardware();
     VuforiaLocalizer vuforia;
@@ -52,14 +54,12 @@ public class Auto_PlaceCube extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
+//        readVuMark();
+        sleep(1000);
         holdGlyph();
         sleep(1000);
-//        useSensors();
-//        sleep(1000);
-//        hitGem();
-//        sleep(1000);
         goToCryptobox();
-//        sleep(1000);
+        sleep(1000);
         dropGlyph();
     }
 
@@ -68,39 +68,26 @@ public class Auto_PlaceCube extends LinearOpMode {
         robot.holdRight.setPosition(.74);
     }
 
-    // Store the value of the vuMark and the color of the gem
-    public void useSensors() {
-        readVuMark();
-        robot.arm.setPosition(0);
-        readColor();
-    }
-
     // Move forward to Gems
-    public void hitGem() {
-        if (color.equals("red")) {
-//            move(); //Forward
-        } else if (color.equals("blue")) {
-//            move(); //Backwards
-        }
-        robot.arm.setPosition(.8);
-    }
+    public void hitGem() {}
 
     // Go to Cryptobox
     public void goToCryptobox() {
         move(SPEED, 28, 28, 5);
-        turn(-90);
-        if (vuMarkPattern.equals("left")) {
-            telemetry.addData("Column", "l");
-            move(SPEED, -3, -3, 5);
-        } else if (vuMarkPattern.equals("center")) {
-            telemetry.addData("Column", "c");
-            move(SPEED, 8, 8, 5);
-        } else if (vuMarkPattern.equals("right")) {
-            telemetry.addData("Column", "r");
-        move(SPEED, 12, 12, 5);
-        }
-        telemetry.update();
         turn(90);
+//        if (vuMarkPattern.equals("left") || vuMarkPattern.equals("")) {
+//            telemetry.addData("Column", "l");
+//            move(SPEED, 3, 3, 5);
+//        } else if (vuMarkPattern.equals("center")) {
+//            telemetry.addData("Column", "c");
+//            move(SPEED, -8, -8, 5);
+//        } else if (vuMarkPattern.equals("right")) {
+//            telemetry.addData("Column", "r");
+//            move(SPEED, -12, -12, 5);
+//        }
+//        telemetry.update();
+        move(SPEED, -3, -3, 5);
+        turn(-90);
     }
     // Drop Glyph
     public void dropGlyph() {
@@ -197,6 +184,7 @@ public class Auto_PlaceCube extends LinearOpMode {
         // Activate tracker
         relicTrackables.activate();
 
+        runtime.reset();
         while (opModeIsActive()) {
             // Variable that stores value from what's seen
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -210,6 +198,8 @@ public class Auto_PlaceCube extends LinearOpMode {
             } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
                 vuMarkPattern = "right";
                 return vuMarkPattern;
+            } else if (runtime.seconds() > 5) {
+                vuMarkPattern = "";
             } else {
                 vuMarkPattern = "";
             }
