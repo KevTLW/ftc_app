@@ -50,6 +50,24 @@ public class Tele_Default extends LinearOpMode {
                 robot.liftRight.setPosition(0);
             }
 
+            // Harvester
+            if (gamepad1.left_bumper) {
+                robot.harvesterLeftMotor.setPower(1);
+                robot.harvesterRightMotor.setPower(1);
+            } else if (gamepad1.right_bumper) {
+                robot.harvesterLeftMotor.setPower(-1);
+                robot.harvesterRightMotor.setPower(-1);
+            } else if (gamepad1.x) {
+                robot.harvesterLeftMotor.setPower(1);
+                robot.harvesterRightMotor.setPower(-1);
+            } else if (gamepad1.y) {
+                robot.harvesterLeftMotor.setPower(-1);
+                robot.harvesterRightMotor.setPower(1);
+            } else if (gamepad1.a) {
+                robot.harvesterLeftMotor.setPower(0);
+                robot.harvesterRightMotor.setPower(0);
+            }
+
             /* Player 2 */
 
             // Elevator

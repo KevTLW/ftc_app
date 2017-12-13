@@ -33,8 +33,8 @@ public class Hardware {
         frontRightDrive = hwMap.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hwMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hwMap.get(DcMotor.class, "backRightDrive");
-//        harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
-//        harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
+        harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
+        harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
         arm = hwMap.get(Servo.class, "arm");
 //        harvesterLeftServo = hwMap.get(Servo.class, "harvesterLeftServo");
@@ -54,8 +54,8 @@ public class Hardware {
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
         backRightDrive.setPower(0);
-//        harvesterLeftMotor.setPower(0);
-//        harvesterRightMotor.setPower(0);
+        harvesterLeftMotor.setPower(0);
+        harvesterRightMotor.setPower(0);
 
         arm.setPosition(.8);
 //        harvesterLeftServo.setPosition(0);
