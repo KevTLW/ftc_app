@@ -73,8 +73,8 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
 
     // Go to Cryptobox
     public void goToCryptobox() {
-        move(SPEED, 28, 28, 5);
-        turn(90);
+        move(SPEED, 32, 32, 5);
+        turn(-90);
 //        if (vuMarkPattern.equals("left") || vuMarkPattern.equals("")) {
 //            telemetry.addData("Column", "l");
 //            move(SPEED, 3, 3, 5);
@@ -86,14 +86,16 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
 //            move(SPEED, -12, -12, 5);
 //        }
 //        telemetry.update();
-        move(SPEED, -3, -3, 5);
-        turn(-90);
+//        move(SPEED, -3, -3, 5);
+//        turn(-90);
+        move(SPEED, 2, 2, 5);
     }
     // Drop Glyph
     public void dropGlyph() {
         robot.holdLeft.setPosition(.59);
         robot.holdRight.setPosition(.41);
         move(SPEED, 6, 6, 5);
+        move(SPEED, -4, -4, 5);
     }
 
     // Move with encoders

@@ -30,10 +30,16 @@ public class Tele_Default extends LinearOpMode {
             // Drive speeds
             leftSpeed = -gamepad1.left_stick_y;
             rightSpeed = -gamepad1.right_stick_y;
-            robot.frontLeftDrive.setPower(leftSpeed);
-            robot.backLeftDrive.setPower(leftSpeed);
-            robot.frontRightDrive.setPower(rightSpeed);
-            robot.backRightDrive.setPower(rightSpeed);
+            robot.frontLeftDrive.setPower(leftSpeed * .75);
+            robot.backLeftDrive.setPower(leftSpeed * .75);
+            robot.frontRightDrive.setPower(rightSpeed * .75);
+            robot.backRightDrive.setPower(rightSpeed * .75);
+            if (robot.liftLeft.getPosition() == 1 || robot.liftRight.getPosition() == 1) {
+                robot.frontLeftDrive.setPower(leftSpeed / 5);
+                robot.backLeftDrive.setPower(leftSpeed / 5);
+                robot.frontRightDrive.setPower(rightSpeed / 5);
+                robot.backRightDrive.setPower(rightSpeed / 5);
+            }
 
             // Balance on board
             if (gamepad1.dpad_down) {
@@ -49,7 +55,7 @@ public class Tele_Default extends LinearOpMode {
             // Elevator
             double elevatorSpeed = 0;
             if (gamepad2.right_trigger > 0.5) {
-                elevatorSpeed = .2;
+                elevatorSpeed = .4;
             } else if (gamepad2.left_trigger > 0.5) {
                 elevatorSpeed = -.2;
             }

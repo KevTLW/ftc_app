@@ -31,7 +31,7 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
 
     // Static variables for turning with encoders
-    static final double CIRCUMFERENCE = 54; // Amount of inches that rotate the robot 360 degrees
+    static final double CIRCUMFERENCE = 42.5; // Amount of inches that rotate the robot 360 degrees
 
     // Static variables for sensors
     private String vuMarkPattern = "";
@@ -82,14 +82,15 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
 //            move(SPEED, 12, 12, 5);
 //        }
 //        telemetry.update();
-        move(SPEED, -3, -3, 5);
-        turn(90);
+        move(SPEED, 12, 12, 5);
+        turn(95);
     }
     // Drop Glyph
     public void dropGlyph() {
         robot.holdLeft.setPosition(.59);
         robot.holdRight.setPosition(.41);
         move(SPEED, 6, 6, 5);
+        move(SPEED, -4, -4, 5);
     }
 
     // Move with encoders
