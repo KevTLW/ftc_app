@@ -12,6 +12,9 @@ public class Tele_Default extends LinearOpMode {
     Hardware robot = new Hardware();
     private ElapsedTime runtime = new ElapsedTime();
 
+
+    double topServo = 0, bottomServo = 0;
+
     @Override
     public void runOpMode() {
         // Initialize Hardware
@@ -34,6 +37,7 @@ public class Tele_Default extends LinearOpMode {
             robot.backLeftDrive.setPower(leftSpeed * .75);
             robot.frontRightDrive.setPower(rightSpeed * .75);
             robot.backRightDrive.setPower(rightSpeed * .75);
+
             if (robot.liftLeft.getPosition() == 1 || robot.liftRight.getPosition() == 1) {
                 robot.frontLeftDrive.setPower(leftSpeed / 5);
                 robot.backLeftDrive.setPower(leftSpeed / 5);
@@ -87,6 +91,23 @@ public class Tele_Default extends LinearOpMode {
                 robot.holdLeft.setPosition(.24);
                 robot.holdRight.setPosition(.74);
             }
+
+            // Test Arm Servos
+
+            if (gamepad2.a) {
+                topServo += .1;
+            } else if (gamepad2.b) {
+                topServo -= .1;
+            } else if (gamepad2.x) {
+                bottomServo += .1;
+            } else if (gamepad2.y) {
+                bottomServo -= .1;
+            }
+            robot.armTopRight.setPosition(topServo);
+            robot.armBottomRight.setPosition(bottomServo);
+            telemetry.addData("top:", topServo);
+            telemetry.addData("bottom:", bottomServo);
+            telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);

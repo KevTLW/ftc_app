@@ -65,7 +65,9 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     }
 
     // Move forward to Gems
-    public void hitGem() {}
+    public void hitGem() {
+        robot.armTopRight.setPosition(.45);
+    }
 
     // Go to Cryptobox
     public void goToCryptobox() {
