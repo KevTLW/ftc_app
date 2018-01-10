@@ -27,8 +27,7 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
     static final double DRIVE_GEAR_REDUCTION = 40;
     static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
-    static final double PI = 3.1415;
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * PI);
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     // Static variables for turning with encoders
     static final double CIRCUMFERENCE = 42.5; // Amount of inches that rotate the robot 360 degrees
@@ -73,17 +72,6 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     public void goToCryptobox() {
         move(SPEED, 28, 28, 5);
         turn(-90);
-//        if (vuMarkPattern.equals("left") || vuMarkPattern.equals("")) {
-//            telemetry.addData("Column", "l");
-//            move(SPEED, -3, -3, 5);
-//        } else if (vuMarkPattern.equals("center")) {
-//            telemetry.addData("Column", "c");
-//            move(SPEED, 8, 8, 5);
-//        } else if (vuMarkPattern.equals("right")) {
-//            telemetry.addData("Column", "r");
-//            move(SPEED, 12, 12, 5);
-//        }
-//        telemetry.update();
         move(SPEED, 12, 12, 5);
         turn(95);
     }

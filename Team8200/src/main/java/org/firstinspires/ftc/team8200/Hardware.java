@@ -42,8 +42,8 @@ public class Hardware {
 //        armBottomLeft = hwMap.get(Servo.class, "armBottomLeft");
         armTopRight = hwMap.get(Servo.class, "armTopRight");
         armBottomRight = hwMap.get(Servo.class, "armBottomRight");
-//        harvesterLeftServo = hwMap.get(Servo.class, "harvesterLeftServo");
-//        harvesterRightServo = hwMap.get(Servo.class, "harvesterRightServo");
+        harvesterLeftServo = hwMap.get(Servo.class, "harvesterLeftServo");
+        harvesterRightServo = hwMap.get(Servo.class, "harvesterRightServo");
         holdLeft = hwMap.get(Servo.class, "holdLeft");
         holdRight = hwMap.get(Servo.class, "holdRight");
         liftLeft = hwMap.get(Servo.class, "liftLeft");
@@ -64,14 +64,14 @@ public class Hardware {
 
 //        armTopLeft.setPosition(0);
 //        armBottomLeft.setPosition(0);
-        armTopRight.setPosition(.3);
-        armBottomRight.setPosition(0);
-//        harvesterLeftServo.setPosition(0);
-//        harvesterRightServo.setPosition(0);
+        armTopRight.setPosition(.95);
+        armBottomRight.setPosition(.375);
+        harvesterLeftServo.setPosition(1);
+        harvesterRightServo.setPosition(0);
         holdLeft.setPosition(.59);
         holdRight.setPosition(.41);
         liftLeft.setPosition(0);
-        liftRight.setPosition(0);
+        liftRight.setPosition(1);
 
         // Enable encoders
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

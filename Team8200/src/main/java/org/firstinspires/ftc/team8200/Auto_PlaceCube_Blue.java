@@ -54,8 +54,6 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-//        readVuMark();
-        sleep(1000);
         holdGlyph();
         sleep(1000);
         goToCryptobox();
@@ -75,19 +73,6 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
     public void goToCryptobox() {
         move(SPEED, 32, 32, 5);
         turn(-90);
-//        if (vuMarkPattern.equals("left") || vuMarkPattern.equals("")) {
-//            telemetry.addData("Column", "l");
-//            move(SPEED, 3, 3, 5);
-//        } else if (vuMarkPattern.equals("center")) {
-//            telemetry.addData("Column", "c");
-//            move(SPEED, -8, -8, 5);
-//        } else if (vuMarkPattern.equals("right")) {
-//            telemetry.addData("Column", "r");
-//            move(SPEED, -12, -12, 5);
-//        }
-//        telemetry.update();
-//        move(SPEED, -3, -3, 5);
-//        turn(-90);
         move(SPEED, 2, 2, 5);
     }
     // Drop Glyph

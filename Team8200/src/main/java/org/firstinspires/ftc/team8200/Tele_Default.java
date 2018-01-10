@@ -38,7 +38,7 @@ public class Tele_Default extends LinearOpMode {
             robot.frontRightDrive.setPower(rightSpeed * .75);
             robot.backRightDrive.setPower(rightSpeed * .75);
 
-            if (robot.liftLeft.getPosition() == 1 || robot.liftRight.getPosition() == 1) {
+            if (robot.liftLeft.getPosition() == 1 || robot.liftRight.getPosition() == 0) {
                 robot.frontLeftDrive.setPower(leftSpeed / 5);
                 robot.backLeftDrive.setPower(leftSpeed / 5);
                 robot.frontRightDrive.setPower(rightSpeed / 5);
@@ -48,10 +48,10 @@ public class Tele_Default extends LinearOpMode {
             // Balance on board
             if (gamepad1.dpad_down) {
                 robot.liftLeft.setPosition(1);
-                robot.liftRight.setPosition(1);
+                robot.liftRight.setPosition(0);
             } else if (gamepad1.dpad_up) {
                 robot.liftLeft.setPosition(0);
-                robot.liftRight.setPosition(0);
+                robot.liftRight.setPosition(1);
             }
 
             // Harvester
@@ -95,13 +95,13 @@ public class Tele_Default extends LinearOpMode {
             // Test Arm Servos
 
             if (gamepad2.a) {
-                topServo += .1;
+                topServo += .025;
             } else if (gamepad2.b) {
-                topServo -= .1;
+                topServo -= .025;
             } else if (gamepad2.x) {
-                bottomServo += .1;
+                bottomServo += .025;
             } else if (gamepad2.y) {
-                bottomServo -= .1;
+                bottomServo -= .025;
             }
             robot.armTopRight.setPosition(topServo);
             robot.armBottomRight.setPosition(bottomServo);
@@ -109,6 +109,13 @@ public class Tele_Default extends LinearOpMode {
             telemetry.addData("bottom:", bottomServo);
             telemetry.update();
 
+            if (gamepad2.dpad_up) {
+                robot.harvesterLeftServo.setPosition(1);
+                robot.harvesterRightServo.setPosition(0);
+            } else if (gamepad2.dpad_down) {
+                robot.harvesterLeftServo.setPosition(0);
+                robot.harvesterRightServo.setPosition(1);
+            }
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
