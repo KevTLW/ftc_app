@@ -13,7 +13,7 @@ public class Tele_Default extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    double topServo = 0, bottomServo = 0;
+    double topServo = .95, bottomServo = .375;
 
     @Override
     public void runOpMode() {
