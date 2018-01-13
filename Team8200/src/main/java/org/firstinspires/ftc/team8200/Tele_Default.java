@@ -12,8 +12,8 @@ public class Tele_Default extends LinearOpMode {
     Hardware robot = new Hardware();
     private ElapsedTime runtime = new ElapsedTime();
 
-
-    double topServo = .95, bottomServo = .375;
+    double topServoLeft = 1, bottomServoLeft = .5;
+    double topServoRight = 1, bottomServoRight = .325;
 
     @Override
     public void runOpMode() {
@@ -55,7 +55,7 @@ public class Tele_Default extends LinearOpMode {
             }
 
             // Harvester
-            if (gamepad1.left_bumper) {
+            /*if (gamepad1.left_bumper) {
                 robot.harvesterLeftMotor.setPower(1);
                 robot.harvesterRightMotor.setPower(1);
             } else if (gamepad1.right_bumper) {
@@ -70,7 +70,7 @@ public class Tele_Default extends LinearOpMode {
             } else if (gamepad1.a) {
                 robot.harvesterLeftMotor.setPower(0);
                 robot.harvesterRightMotor.setPower(0);
-            }
+            }*/
 
             /* Player 2 */
 
@@ -85,28 +85,45 @@ public class Tele_Default extends LinearOpMode {
 
             // Glyph Holder
             if (gamepad2.left_bumper) {
-                robot.holdLeft.setPosition(.59);
-                robot.holdRight.setPosition(.41);
+                robot.holdLeft.setPosition(.39);
+                robot.holdRight.setPosition(.61);;
             } else if (gamepad2.right_bumper) {
                 robot.holdLeft.setPosition(.24);
                 robot.holdRight.setPosition(.74);
             }
 
             // Test Arm Servos
-
+            // left
             if (gamepad2.a) {
-                topServo += .025;
+                topServoLeft += .025;
             } else if (gamepad2.b) {
-                topServo -= .025;
+                topServoLeft -= .025;
             } else if (gamepad2.x) {
-                bottomServo += .025;
+                bottomServoLeft += .025;
             } else if (gamepad2.y) {
-                bottomServo -= .025;
+                bottomServoLeft -= .025;
             }
-            robot.armTopRight.setPosition(topServo);
-            robot.armBottomRight.setPosition(bottomServo);
-            telemetry.addData("top:", topServo);
-            telemetry.addData("bottom:", bottomServo);
+            robot.armTopLeft.setPosition(topServoLeft);
+            robot.armBottomLeft.setPosition(bottomServoLeft);
+
+            // right
+            if (gamepad1.a) {
+                topServoRight += .025;
+            } else if (gamepad1.b) {
+                topServoRight -= .025;
+            } else if (gamepad1.x) {
+                bottomServoRight += .025;
+            } else if (gamepad1.y) {
+                bottomServoRight -= .025;
+            }
+            robot.armTopRight.setPosition(topServoRight);
+            robot.armBottomRight.setPosition(bottomServoRight);
+
+            //show values
+            telemetry.addData("topLeft:", topServoLeft);
+            telemetry.addData("bottomLeft:", bottomServoLeft);
+            telemetry.addData("topRight:", topServoRight);
+            telemetry.addData("bottomRight:", bottomServoRight);
             telemetry.update();
 
             if (gamepad2.dpad_up) {

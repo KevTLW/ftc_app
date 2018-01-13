@@ -38,8 +38,8 @@ public class Hardware {
         harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
 
-//        armTopLeft = hwMap.get(Servo.class, "armTopLeft");
-//        armBottomLeft = hwMap.get(Servo.class, "armBottomLeft");
+        armTopLeft = hwMap.get(Servo.class, "armTopLeft");
+        armBottomLeft = hwMap.get(Servo.class, "armBottomLeft");
         armTopRight = hwMap.get(Servo.class, "armTopRight");
         armBottomRight = hwMap.get(Servo.class, "armBottomRight");
         harvesterLeftServo = hwMap.get(Servo.class, "harvesterLeftServo");
@@ -62,10 +62,10 @@ public class Hardware {
         harvesterLeftMotor.setPower(0);
         harvesterRightMotor.setPower(0);
 
-//        armTopLeft.setPosition(0);
-//        armBottomLeft.setPosition(0);
-        armTopRight.setPosition(.95);
-        armBottomRight.setPosition(.375);
+        armTopLeft.setPosition(1);
+        armBottomLeft.setPosition(.5);
+        armTopRight.setPosition(1);
+        armBottomRight.setPosition(.325);
         harvesterLeftServo.setPosition(1);
         harvesterRightServo.setPosition(0);
         holdLeft.setPosition(.59);

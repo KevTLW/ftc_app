@@ -42,7 +42,7 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Names for Hardware Configuration
-        colorSensor = hardwareMap.get(ColorSensor.class, "sensor");
+        colorSensor = hardwareMap.get(ColorSensor.class, "sensorRight");
 
         // Reset encoders
         stopAndResetEncoders();
@@ -51,6 +51,8 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
+        hitGem();
+        sleep(1000);
         holdGlyph();
         sleep(1000);
         goToCryptobox();
@@ -70,10 +72,12 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
         robot.armBottomRight.setPosition(.475);
         readColor();
         if (color.equals("red")) {
-            robot.armBottomRight.setPosition(.3);
-        } else if (color.equals("blue")) {
             robot.armBottomRight.setPosition(.65);
+        } else if (color.equals("blue")) {
+            robot.armBottomRight.setPosition(.3);
         }
+        robot.armTopRight.setPosition(.95);
+        robot.armBottomRight.setPosition(.375);
     }
 
     // Go to Cryptobox
@@ -83,6 +87,7 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
         move(SPEED, 12, 12, 5);
         turn(95);
     }
+
     // Drop Glyph
     public void dropGlyph() {
         robot.holdLeft.setPosition(.59);
