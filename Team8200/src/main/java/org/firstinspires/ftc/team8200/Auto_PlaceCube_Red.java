@@ -68,14 +68,19 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     // Move forward to Gems
     public void hitGem() {
         // Arm Down
-        robot.armTopRight.setPosition(0);
-        robot.armBottomRight.setPosition(.475);
+        robot.armTopRight.setPosition(.3);
+        robot.armBottomRight.setPosition(.325);
+        sleep(1000);
+        robot.armTopRight.setPosition(-.05);
+        robot.armBottomRight.setPosition(.425);
         readColor();
+        sleep(1000);
         if (color.equals("red")) {
-            robot.armBottomRight.setPosition(.65);
+            robot.armBottomRight.setPosition(1);
         } else if (color.equals("blue")) {
-            robot.armBottomRight.setPosition(.3);
+            robot.armBottomRight.setPosition(-1);
         }
+        sleep(1000);
         robot.armTopRight.setPosition(.95);
         robot.armBottomRight.setPosition(.375);
     }
@@ -83,9 +88,7 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
     // Go to Cryptobox
     public void goToCryptobox() {
         move(SPEED, 28, 28, 5);
-        turn(-90);
-        move(SPEED, 12, 12, 5);
-        turn(95);
+        turn(-25);
     }
 
     // Drop Glyph
@@ -227,13 +230,13 @@ public class Auto_PlaceCube_Red extends LinearOpMode {
             telemetry.update();
 
             // Considered adding a timer just to confirm that the color is accurate
-            if (colorSensor.red() > colorSensor.green() && colorSensor.red() > colorSensor.blue()) { // Condition for RED
-                if (runtime.seconds() > 2) {
+            if (colorSensor.red() > colorSensor.blue()) { // Condition for RED
+                if (runtime.seconds() > 1) {
                     color = "red";
                     return color;
                 }
-            } else if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green()) { // Condition for BLUE
-                if (runtime.seconds() > 2) {
+            } else if (colorSensor.blue() > colorSensor.red()) { // Condition for BLUE
+                if (runtime.seconds() > 1) {
                     color = "blue";
                     return color;
                 }

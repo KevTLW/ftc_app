@@ -55,7 +55,7 @@ public class Tele_Default extends LinearOpMode {
             }
 
             // Harvester
-            /*if (gamepad1.left_bumper) {
+            if (gamepad1.left_bumper) {
                 robot.harvesterLeftMotor.setPower(1);
                 robot.harvesterRightMotor.setPower(1);
             } else if (gamepad1.right_bumper) {
@@ -70,7 +70,7 @@ public class Tele_Default extends LinearOpMode {
             } else if (gamepad1.a) {
                 robot.harvesterLeftMotor.setPower(0);
                 robot.harvesterRightMotor.setPower(0);
-            }*/
+            }
 
             /* Player 2 */
 
@@ -93,27 +93,14 @@ public class Tele_Default extends LinearOpMode {
             }
 
             // Test Arm Servos
-            // left
-            if (gamepad2.a) {
-                topServoLeft += .025;
-            } else if (gamepad2.b) {
-                topServoLeft -= .025;
-            } else if (gamepad2.x) {
-                bottomServoLeft += .025;
-            } else if (gamepad2.y) {
-                bottomServoLeft -= .025;
-            }
-            robot.armTopLeft.setPosition(topServoLeft);
-            robot.armBottomLeft.setPosition(bottomServoLeft);
-
             // right
-            if (gamepad1.a) {
+            if (gamepad2.a) {
                 topServoRight += .025;
-            } else if (gamepad1.b) {
+            } else if (gamepad2.b) {
                 topServoRight -= .025;
-            } else if (gamepad1.x) {
+            } else if (gamepad2.x) {
                 bottomServoRight += .025;
-            } else if (gamepad1.y) {
+            } else if (gamepad2.y) {
                 bottomServoRight -= .025;
             }
             robot.armTopRight.setPosition(topServoRight);

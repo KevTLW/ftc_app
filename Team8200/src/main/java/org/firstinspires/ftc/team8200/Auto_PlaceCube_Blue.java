@@ -45,7 +45,7 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Names for Hardware Configuration
-        colorSensor = hardwareMap.get(ColorSensor.class, "sensorLeft");
+        colorSensor = hardwareMap.get(ColorSensor.class, "sensorRight");
 
         // Reset encoders
         stopAndResetEncoders();
@@ -60,7 +60,7 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         sleep(1000);
         goToCryptobox();
         sleep(1000);
-        dropGlyph();
+//        dropGlyph();
     }
 
     public void holdGlyph() {
@@ -71,21 +71,26 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
     // Move forward to Gems
     public void hitGem() {
         // Arm Down
-        robot.armTopLeft.setPosition(-.075);
-        robot.armBottomLeft.setPosition(0);
+        robot.armTopRight.setPosition(.3);
+        robot.armBottomRight.setPosition(.325);
+        sleep(1000);
+        robot.armTopRight.setPosition(-.05);
+        robot.armBottomRight.setPosition(.425);
         readColor();
+        sleep(1000);
         if (color.equals("red")) {
-            robot.armBottomRight.setPosition(.25);
+            robot.armBottomRight.setPosition(-1);
         } else if (color.equals("blue")) {
-            robot.armBottomRight.setPosition(.6);
+            robot.armBottomRight.setPosition(1);
         }
+        sleep(1000);
+        robot.armTopRight.setPosition(.95);
+        robot.armBottomRight.setPosition(.375);
     }
 
     // Go to Cryptobox
     public void goToCryptobox() {
-        move(SPEED, 32, 32, 5);
-        turn(-90);
-        move(SPEED, 2, 2, 5);
+        move(SPEED, 28, 28, 5);
     }
 
     // Drop Glyph
@@ -104,8 +109,8 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.frontRightDrive.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             robot.frontLeftDrive.setTargetPosition(newLeftTarget);
             robot.frontRightDrive.setTargetPosition(newRightTarget);
 
@@ -147,7 +152,7 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry.addData("Current Position",  "Left: %7d Right:%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
+        telemetry.addData("Current Position", "Left: %7d Right:%7d", robot.frontLeftDrive.getCurrentPosition(), robot.frontRightDrive.getCurrentPosition());
         telemetry.update();
     }
 
@@ -217,7 +222,7 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive()) {
             // Convert from RGB to HSV
-            Color.RGBToHSV((int)(colorSensor.red() * SCALE_FACTOR), (int)(colorSensor.green() * SCALE_FACTOR), (int)(colorSensor.blue() * SCALE_FACTOR), hsvValues);
+            Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR), (int) (colorSensor.green() * SCALE_FACTOR), (int) (colorSensor.blue() * SCALE_FACTOR), hsvValues);
 
             // Show values at Driver Station
             telemetry.addData("Alpha", colorSensor.alpha());
@@ -227,13 +232,13 @@ public class Auto_PlaceCube_Blue extends LinearOpMode {
             telemetry.update();
 
             // Considered adding a timer just to confirm that the color is accurate
-            if (colorSensor.red() > colorSensor.green() && colorSensor.red() > colorSensor.blue()) { // Condition for RED
-                if (runtime.seconds() > 2) {
+            if (colorSensor.red() > colorSensor.blue()) { // Condition for RED
+                if (runtime.seconds() > 1) {
                     color = "red";
                     return color;
                 }
-            } else if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green()) { // Condition for BLUE
-                if (runtime.seconds() > 2) {
+            } else if (colorSensor.blue() > colorSensor.red()) { // Condition for BLUE
+                if (runtime.seconds() > 1) {
                     color = "blue";
                     return color;
                 }

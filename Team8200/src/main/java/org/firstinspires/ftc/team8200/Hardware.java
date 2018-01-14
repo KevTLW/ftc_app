@@ -11,8 +11,7 @@ public class Hardware {
                    backLeftDrive, backRightDrive,
                    harvesterLeftMotor, harvesterRightMotor;
 
-    public Servo armTopLeft, armBottomLeft,
-                 armTopRight, armBottomRight,
+    public Servo armTopRight, armBottomRight,
                  harvesterLeftServo, harvesterRightServo,
                  holdLeft, holdRight,
                  liftLeft, liftRight;
@@ -37,9 +36,6 @@ public class Hardware {
         harvesterLeftMotor = hwMap.get(DcMotor.class, "harvesterLeftMotor");
         harvesterRightMotor = hwMap.get(DcMotor.class, "harvesterRightMotor");
 
-
-        armTopLeft = hwMap.get(Servo.class, "armTopLeft");
-        armBottomLeft = hwMap.get(Servo.class, "armBottomLeft");
         armTopRight = hwMap.get(Servo.class, "armTopRight");
         armBottomRight = hwMap.get(Servo.class, "armBottomRight");
         harvesterLeftServo = hwMap.get(Servo.class, "harvesterLeftServo");
@@ -62,8 +58,6 @@ public class Hardware {
         harvesterLeftMotor.setPower(0);
         harvesterRightMotor.setPower(0);
 
-        armTopLeft.setPosition(1);
-        armBottomLeft.setPosition(.5);
         armTopRight.setPosition(1);
         armBottomRight.setPosition(.325);
         harvesterLeftServo.setPosition(1);
