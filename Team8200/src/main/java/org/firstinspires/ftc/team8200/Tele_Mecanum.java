@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+public static double strafe() {
+    //side youre going to goes in, other goes opposite
+}
+
 @TeleOp(name="Mecanum", group="TeleOp")
 public class Tele_Default extends LinearOpMode {
     // Import objects used in robot
@@ -18,7 +22,7 @@ public class Tele_Default extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Drive variables
-        double leftSpeed, rightSpeed;
+        double leftSpeed, rightSpeed, strafe;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -36,7 +40,11 @@ public class Tele_Default extends LinearOpMode {
             robot.backRightDrive.setPower(rightSpeed * .75);
             
             // Drive speeds (Strafing)
-            /* TODO: implement the strafing */
+            strafe = gamepad1.left_stick_x;
+            robot.frontLeftDrive.setPower(strafe * .75);
+            robot.backLeftDrive.setPower(strafe * .75);
+            robot.frontRightDrive.setPower(-strafe * .75);
+            robot.backRightDrive.setPower(-strafe * .75);
             
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
