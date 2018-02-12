@@ -6,14 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-public static double strafe() {
-    //side youre going to goes in, other goes opposite
-}
-
 @TeleOp(name="Mecanum", group="TeleOp")
-public class Tele_Default extends LinearOpMode {
+public class Tele_Mecanum extends LinearOpMode {
     // Import objects used in robot
-    Hardware robot = new Hardware();
+    MecanumHardware robot = new MecanumHardware();
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -32,22 +28,24 @@ public class Tele_Default extends LinearOpMode {
             /* Player 1 */
 
             // Drive speeds (Regular axis)
-            leftSpeed = -gamepad1.left_stick_y;
-            rightSpeed = -gamepad1.right_stick_y;
+            leftSpeed = gamepad1.left_stick_y;
+            rightSpeed = gamepad1.right_stick_y;
             robot.frontLeftDrive.setPower(leftSpeed * .75);
-            robot.backLeftDrive.setPower(leftSpeed * .75);
             robot.frontRightDrive.setPower(rightSpeed * .75);
+            robot.backLeftDrive.setPower(leftSpeed * .75);
             robot.backRightDrive.setPower(rightSpeed * .75);
             
             // Drive speeds (Strafing)
             strafe = gamepad1.left_stick_x;
-            robot.frontLeftDrive.setPower(strafe * .75);
+            robot.frontLeftDrive.setPower(-strafe * .75);
+            robot.frontRightDrive.setPower(strafe * .75);
             robot.backLeftDrive.setPower(strafe * .75);
-            robot.frontRightDrive.setPower(-strafe * .75);
             robot.backRightDrive.setPower(-strafe * .75);
-            
-            // Pause for 40 mS each cycle = update 25 times a second.
-            sleep(40);
+
+            telemetry.addData("LS", leftSpeed * .75);
+            telemetry.addData("RS", rightSpeed * .75);
+            telemetry.addData("SS", strafe * .75);
+            telemetry.update();
         }
     }
 }
