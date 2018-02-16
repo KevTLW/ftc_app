@@ -18,8 +18,8 @@ public class Tele_Mecanum extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Drive variables
-        double leftSpeed, rightSpeed, strafe;
-//        boolean strafeLeft, strafeRight;
+        double leftSpeed, rightSpeed;
+        boolean leftStrafe, rightStrafe;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -35,35 +35,22 @@ public class Tele_Mecanum extends LinearOpMode {
             robot.frontRightDrive.setPower(rightSpeed * .75);
             robot.backLeftDrive.setPower(leftSpeed * .75);
             robot.backRightDrive.setPower(rightSpeed * .75);
-            
-            // Drive speeds (Strafing)
-            strafe = gamepad1.left_stick_x;
-            robot.frontLeftDrive.setPower(-strafe * .75);
-            robot.frontRightDrive.setPower(strafe * .75);
-            robot.backLeftDrive.setPower(strafe * .75);
-            robot.backRightDrive.setPower(-strafe * .75);
 
-            /* Possible alternative to strafing
-            strafeLeft = gamepad1.dpad_left;
-            strafeRight = gamepad1.dpad_right;
-            if (strafeLeft) {
-                robot.frontLeftDrive.setPower(-.75);
-                robot.frontRightDrive.setPower(.75);
-                robot.backLeftDrive.setPower(.75);
-                robot.backRightDrive.setPower(-.75);
-            }
-            if (strafeRight) {
+            // Drive speeds (Strafing)
+            leftStrafe = gamepad1.dpad_left;
+            rightStrafe = gamepad1.dpad_right;
+            if (leftStrafe) {
                 robot.frontLeftDrive.setPower(.75);
                 robot.frontRightDrive.setPower(-.75);
                 robot.backLeftDrive.setPower(-.75);
                 robot.backRightDrive.setPower(.75);
             }
-            */
-
-            telemetry.addData("LS", leftSpeed * .75);
-            telemetry.addData("RS", rightSpeed * .75);
-            telemetry.addData("SS", strafe * .75);
-            telemetry.update();
+            if (rightStrafe) {
+                robot.frontLeftDrive.setPower(-.75);
+                robot.frontRightDrive.setPower(.75);
+                robot.backLeftDrive.setPower(.75);
+                robot.backRightDrive.setPower(-.75);
+            }
         }
     }
 }
