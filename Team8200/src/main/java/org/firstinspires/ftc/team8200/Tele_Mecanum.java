@@ -51,6 +51,24 @@ public class Tele_Mecanum extends LinearOpMode {
                 robot.backLeftDrive.setPower(.75);
                 robot.backRightDrive.setPower(-.75);
             }
+
+            /* Player 2 */
+
+            // Harvester
+            if (gamepad2.left_bumper) {
+                robot.harvesterLeft.setPower(1);
+                robot.harvesterRight.setPower(1);
+            } else if (gamepad2.right_bumper) {
+                robot.harvesterLeft.setPower(-1);
+                robot.harvesterRight.setPower(-1);
+            }
+
+            // Flip structure
+            if (gamepad2.y) {
+                robot.backStructure.setPosition(1);
+            } else if (gamepad2.a) {
+                robot.backStructure.setPosition(0);
+            }
         }
     }
 }
