@@ -20,6 +20,7 @@ public class Tele_Mecanum extends LinearOpMode {
         // Drive variables
         double leftSpeed, rightSpeed;
         boolean leftStrafe, rightStrafe;
+        double frontStructure = .7;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -56,19 +57,35 @@ public class Tele_Mecanum extends LinearOpMode {
 
             // Harvester
             if (gamepad2.left_bumper) {
-                robot.harvesterLeft.setPower(1);
-                robot.harvesterRight.setPower(1);
+                robot.harvesterLeft.setPower(0);
+                robot.harvesterRight.setPower(0);
             } else if (gamepad2.right_bumper) {
-                robot.harvesterLeft.setPower(-1);
-                robot.harvesterRight.setPower(-1);
+                robot.harvesterLeft.setPower(-.75);
+                robot.harvesterRight.setPower(-.75);
             }
 
             // Flip structure
             if (gamepad2.y) {
-                robot.backStructure.setPosition(1);
+                robot.backLeftStructure.setPosition(-1);
+                robot.backRightStructure.setPosition(1);
             } else if (gamepad2.a) {
-                robot.backStructure.setPosition(0);
+                robot.backLeftStructure.setPosition(1);
+                robot.backRightStructure.setPosition(-1);
+            } else if (gamepad2.b) {
+                robot.frontStructure.setPosition(0);
             }
+//            if (gamepad2.b) {
+//                frontStructure += .05;
+//            } else if (gamepad2.x) {
+//                frontStructure -= .05;
+//            }
+//
+//            robot.frontStructure.setPosition(frontStructure);
+//
+//            telemetry.addData("F", frontStructure);
+//            telemetry.update();
+
+            sleep(40);
         }
     }
 }

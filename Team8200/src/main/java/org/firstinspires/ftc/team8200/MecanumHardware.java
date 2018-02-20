@@ -10,8 +10,9 @@ public class MecanumHardware {
                    backLeftDrive, backRightDrive,
                    harvesterLeft, harvesterRight;
 
-    public Servo armTop, armBottom,
-                 frontStructure, backStructure;
+    public Servo //armTop, armBottom,
+                 frontStructure,
+                 backLeftStructure, backRightStructure;
 
     // Local OpMode Properties
     HardwareMap hwMap;
@@ -32,10 +33,11 @@ public class MecanumHardware {
         harvesterLeft = hwMap.get(DcMotor.class, "harvesterLeft");
         harvesterRight = hwMap.get(DcMotor.class, "harvesterRight");
 
-        armTop = hwMap.get(Servo.class, "armTop");
-        armBottom = hwMap.get(Servo.class, "armBottom");
+//        armTop = hwMap.get(Servo.class, "armTop");
+//        armBottom = hwMap.get(Servo.class, "armBottom");
         frontStructure = hwMap.get(Servo.class, "frontStructure");
-        backStructure = hwMap.get(Servo.class, "backStructure");
+        backLeftStructure = hwMap.get(Servo.class, "backLeftStructure");
+        backRightStructure = hwMap.get(Servo.class, "backRightStructure");
 
         // Motor Direction
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -50,10 +52,11 @@ public class MecanumHardware {
         harvesterLeft.setPower(0);
         harvesterRight.setPower(0);
 
-        armTop.setPosition(0);
-        armBottom.setPosition(0);
-        frontStructure.setPosition(0);
-        backStructure.setPosition(0);
+//        armTop.setPosition(0);
+//        armBottom.setPosition(0);
+        frontStructure.setPosition(.725);
+        backLeftStructure.setPosition(.5);
+        backRightStructure.setPosition(-.5);
 
         // Disable encoders
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

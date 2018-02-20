@@ -15,27 +15,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 @Autonomous(name = "Red Mecanum", group = "Autonomous")
 public class Auto_Mecanum_Red extends LinearOpMode {
     // Import objects used in robot
-    Hardware robot = new Hardware();
+    MecanumHardware robot = new MecanumHardware();
     private ElapsedTime runtime = new ElapsedTime();
+    ColorSensor colorSensor;
 
     // Static variables for general use
     static final double SPEED = -.5;
 
     // Static variables for encoders
-    static final double COUNTS_PER_MOTOR_REV = 28; // Source: NeveRest 40 Specifications Sheet
-    static final double DRIVE_GEAR_REDUCTION = 40;
-    static final double WHEEL_DIAMETER_INCHES = 4; // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-
-    /* Possible implementation
-    static final double PULSES_PER_REVOLUTION = 280
-    static final double COUNTS_PER_INCH = PULSES_PER_REVOLUTION / (WHEEL_DIAMETER_INCHES * Math.PI); // Find proper denominator
-     */
+    static final double PULSES_PER_REVOLUTION = 280;
+    static final double COUNTS_PER_INCH = PULSES_PER_REVOLUTION / Math.PI;
 
     @Override
     public void runOpMode() {
         // Initialize Hardware
         robot.init(hardwareMap);
+
+        // Names for Hardware Configuration
+        colorSensor = hardwareMap.get(ColorSensor.class, "sensor");
 
         // Reset encoders
         reset();
@@ -52,11 +49,24 @@ public class Auto_Mecanum_Red extends LinearOpMode {
             Go straight
             Drop cube and retract
          */
+        move(24);
+        move(-24);
+        strafe(24);
+        strafe(-24);
     }
 
     public void hitGem() {
         //Arm out
-        //Use logic
+        if (readColor() == "blue") {
+            // move to blue
+        } else if (readColor() == "red") {
+            // move to blue
+        }
+        //Arm in
+    }
+
+    public void moveToCryptobox() {
+
     }
 
     public void move(double inches) {
@@ -98,22 +108,17 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.frontRightDrive.setPower(0);
         robot.backLeftDrive.setPower(0);
         robot.backRightDrive.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        reset();
     }
 
     public void strafe(double inches) {
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
-        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
         frontRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
         backLeftTarget = robot.backLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        backRightTarget = robot.backRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        backRightTarget = robot.backRightDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
         robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
         robot.frontRightDrive.setTargetPosition(frontRightTarget);
         robot.backLeftDrive.setTargetPosition(backLeftTarget);
@@ -126,10 +131,10 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Move (Might have TODO invert)
-        robot.frontLeftDrive.setPower(-SPEED);
+        robot.frontLeftDrive.setPower(SPEED);
         robot.frontRightDrive.setPower(SPEED);
         robot.backLeftDrive.setPower(SPEED);
-        robot.backRightDrive.setPower(-SPEED);
+        robot.backRightDrive.setPower(SPEED);
 
         // Keep in motion (Show how much is still left)
         while (opModeIsActive() && robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.backLeftDrive.isBusy() && robot.backRightDrive.isBusy()) {
@@ -145,12 +150,7 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.frontRightDrive.setPower(0);
         robot.backLeftDrive.setPower(0);
         robot.backRightDrive.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        reset();
     }
 
     // Reset encoders
@@ -166,5 +166,38 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public String readColor() {
+        // Store HSV Values
+        float hsvValues[] = {0F, 0F, 0F};
+
+        // Scale to convert RGB to HSV
+        final double SCALE_FACTOR = 255;
+
+        runtime.reset();
+        while (opModeIsActive()) {
+            // Convert from RGB to HSV
+            Color.RGBToHSV((int)(colorSensor.red() * SCALE_FACTOR), (int)(colorSensor.green() * SCALE_FACTOR), (int)(colorSensor.blue() * SCALE_FACTOR), hsvValues);
+
+            // Show values at Driver Station
+            telemetry.addData("Alpha", colorSensor.alpha());
+            telemetry.addData("Red  ", colorSensor.red());
+            telemetry.addData("Green", colorSensor.green());
+            telemetry.addData("Blue ", colorSensor.blue());
+            telemetry.update();
+
+            // Considered adding a timer just to confirm that the color is accurate
+            if (colorSensor.red() > colorSensor.blue()) { // Condition for RED
+                if (runtime.seconds() > 1) {
+                    return "red";
+                }
+            } else if (colorSensor.blue() > colorSensor.red()) { // Condition for BLUE
+                if (runtime.seconds() > 1) {
+                    return "blue";
+                }
+            }
+        }
+        return "";
     }
 }
