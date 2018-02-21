@@ -15,12 +15,12 @@ public class Auto_Mecanum_Red extends LinearOpMode {
     ColorSensor colorSensor;
 
     // Static variables for general use
-    static final double SPEED = -.5;
+    static double SPEED = -.5;
 
     // Static variables for encoders
     static final double PULSES_PER_REVOLUTION = 280;
     static final double COUNTS_PER_INCH = PULSES_PER_REVOLUTION / Math.PI;
-    static final double CIRCUMFERENCE = 92.5; //TODO
+    static final double CIRCUMFERENCE = 93.5;
 
     // Variables for sensors
     private String color = "";
@@ -40,41 +40,41 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        rotate(360); //TODO
-        /* TODO STRATEGY */
-//        hitGem();
-//        move(-28);
-//        rotate(90);
-//        dropGlyphs();
-//        strafe(-8);
-//        move(32);
-//        collectGlyphs();
-//        move(-32);
-//        dropGlyphs();
-//        strafe(-8);
-//        move(32);
-//        collectGlyphs();
-//        move(-32);
-//        dropGlyphs();
+        hitJewel();
+        move(-28);
+        rotate(90);
+        move(-4);
+        dropGlyphs();
+        strafe(-8);
+        move(36);
+        collectGlyphs();
+        move(-36);
+        dropGlyphs();
+        strafe(-12);
+        move(36);
+        collectGlyphs();
+        move(-36);
+        dropGlyphs();
     }
 
-    public void hitGem() {
-        //Arm out TODO
+    public void hitJewel() {
+        robot.arm.setPosition(.3);
         readColor();
         if (color.equals("blue")) {
-            move(-4);
-        } else if (color.equals("red")) {
             move(4);
+        } else if (color.equals("red")) {
+            move(-4);
         } else {
-            //Arm in TODO
+            robot.arm.setPosition(.85);
             return;
         }
-        //Arm in TODO
+        robot.arm.setPosition(.85);
         if (color.equals("blue")) {
-            move(4);
-        } else if (color.equals("red")) {
             move(-4);
+        } else if (color.equals("red")) {
+            move(4);
         }
+        SPEED = -.75;
     }
 
     // Move inputted amount of inches
@@ -120,7 +120,7 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         reset();
     }
 
-    // Rotate inputted amount of degrees TODO
+    // Rotate inputted amount of degrees
     public void rotate(double degrees) {
         reset();
         double arc = degrees / 360.0;
@@ -129,10 +129,10 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
-        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
-        frontRightTarget = robot.frontRightDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
-        backLeftTarget = robot.backLeftDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
-        backRightTarget = robot.backRightDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
+        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
+        frontRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
+        backLeftTarget = robot.backLeftDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
+        backRightTarget = robot.backRightDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
         robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
         robot.frontRightDrive.setTargetPosition(frontRightTarget);
         robot.backLeftDrive.setTargetPosition(backLeftTarget);
@@ -229,7 +229,7 @@ public class Auto_Mecanum_Red extends LinearOpMode {
     public void collectGlyphs() {
         robot.frontStructure.setPosition(0);
         runtime.reset();
-        while (runtime.seconds() < 2) {
+        while (opModeIsActive() && runtime.seconds() < 2) {
             robot.harvesterLeft.setPower(-.5);
             robot.harvesterRight.setPower(-.5);
         }
@@ -239,11 +239,14 @@ public class Auto_Mecanum_Red extends LinearOpMode {
     public void dropGlyphs() {
         robot.backLeftStructure.setPosition(-1);
         robot.backRightStructure.setPosition(1);
+        robot.frontStructure.setPosition(0);
 
         sleep(1000);
 
         robot.backLeftStructure.setPosition(1);
         robot.backRightStructure.setPosition(-1);
+        move(-4);
+        move(4);
     }
 
     // Return color detected by the sensor
@@ -270,10 +273,12 @@ public class Auto_Mecanum_Red extends LinearOpMode {
             if (colorSensor.red() > colorSensor.blue()) { // Condition for RED
                 if (runtime.seconds() > 1) {
                     color = "red";
+                    return;
                 }
             } else if (colorSensor.blue() > colorSensor.red()) { // Condition for BLUE
                 if (runtime.seconds() > 1) {
                     color = "blue";
+                    return;
                 }
             }
         }

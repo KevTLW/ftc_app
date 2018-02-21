@@ -19,11 +19,11 @@ public class Tele_Mecanum extends LinearOpMode {
 
         // Drive variables
         double leftSpeed, rightSpeed,
-               harvesterIn, harvesterOut;
+               harvester;
 
         boolean leftStrafe, rightStrafe;
 
-        double arm = 0;
+        double front = 0;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -56,29 +56,25 @@ public class Tele_Mecanum extends LinearOpMode {
                 robot.backRightDrive.setPower(-.75);
             }
 
-            // Arm positioning TODO
-            if (gamepad1.y) {
-                arm +=.05;
-            } else if (gamepad1.a) {
-                arm -= .05;
-            }
-
-            robot.arm.setPosition(arm);
-
-            telemetry.addData("Arm: ", arm);
-            telemetry.update();
+            // Arm positioning
+            robot.arm.setPosition(.8);
 
             /* Player 2 */
 
             // Harvester
-            harvesterIn = gamepad2.right_trigger;
-            harvesterOut = gamepad2.left_trigger;
-            if (harvesterIn != 0) {
-                robot.harvesterLeft.setPower(harvesterIn * -.5);
-                robot.harvesterRight.setPower(harvesterIn * -.5);
-            } else if (harvesterOut != 0) {
-                robot.harvesterLeft.setPower(harvesterIn * .5);
-                robot.harvesterRight.setPower(harvesterIn * .5);
+            if (gamepad2.left_trigger > 0) {
+                harvester = -gamepad2.left_trigger;
+                robot.harvesterLeft.setPower(harvester * .325);
+                robot.harvesterRight.setPower(harvester * .325);
+            }
+            if (gamepad2.right_trigger > 0) {
+                harvester = gamepad2.right_trigger;
+                robot.harvesterLeft.setPower(harvester * .325);
+                robot.harvesterRight.setPower(harvester * .325);
+            }
+            if (gamepad2.left_trigger > 0 && gamepad2.right_trigger > 0) {
+                robot.harvesterLeft.setPower(0);
+                robot.harvesterRight.setPower(0);
             }
 
             // Flip structures
@@ -89,8 +85,16 @@ public class Tele_Mecanum extends LinearOpMode {
                 robot.backLeftStructure.setPosition(1);
                 robot.backRightStructure.setPosition(-1);
             } else if (gamepad2.b) {
-                robot.frontStructure.setPosition(0);
+                front += .025;
+//                robot.frontStructure.setPosition(0);
+            } else if (gamepad2.x) {
+                front -= .025;
             }
+
+            robot.frontStructure.setPosition(front);
+
+            telemetry.addData("F", front);
+            telemetry.update();
 
             sleep(40);
         }

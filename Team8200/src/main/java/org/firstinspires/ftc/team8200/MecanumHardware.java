@@ -33,7 +33,7 @@ public class MecanumHardware {
         harvesterLeft = hwMap.get(DcMotor.class, "harvesterLeft");
         harvesterRight = hwMap.get(DcMotor.class, "harvesterRight");
 
-        arm= hwMap.get(Servo.class, "arm");
+        arm = hwMap.get(Servo.class, "arm");
         frontStructure = hwMap.get(Servo.class, "frontStructure");
         backLeftStructure = hwMap.get(Servo.class, "backLeftStructure");
         backRightStructure = hwMap.get(Servo.class, "backRightStructure");
@@ -51,8 +51,8 @@ public class MecanumHardware {
         harvesterLeft.setPower(0);
         harvesterRight.setPower(0);
 
-        arm.setPosition(0);
-        frontStructure.setPosition(.725);
+        arm.setPosition(.85);
+        frontStructure.setPosition(.275);
         backLeftStructure.setPosition(.5);
         backRightStructure.setPosition(-.5);
 
