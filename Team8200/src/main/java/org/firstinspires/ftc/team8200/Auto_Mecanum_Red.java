@@ -6,11 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 @Autonomous(name = "Red Mecanum", group = "Autonomous")
 public class Auto_Mecanum_Red extends LinearOpMode {
@@ -25,6 +20,10 @@ public class Auto_Mecanum_Red extends LinearOpMode {
     // Static variables for encoders
     static final double PULSES_PER_REVOLUTION = 280;
     static final double COUNTS_PER_INCH = PULSES_PER_REVOLUTION / Math.PI;
+    static final double CIRCUMFERENCE = 92.5; //TODO
+
+    // Variables for sensors
+    private String color = "";
 
     @Override
     public void runOpMode() {
@@ -41,42 +40,52 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         waitForStart();
 
         // Run methods in sequence
-        /*
-            Get gem points
-            (Use vuforia)
-            Go straight
-            Strafe until right column
-            Go straight
-            Drop cube and retract
-         */
-        move(24);
-        move(-24);
-        strafe(24);
-        strafe(-24);
+        rotate(360); //TODO
+        /* TODO STRATEGY */
+//        hitGem();
+//        move(-28);
+//        rotate(90);
+//        dropGlyphs();
+//        strafe(-8);
+//        move(32);
+//        collectGlyphs();
+//        move(-32);
+//        dropGlyphs();
+//        strafe(-8);
+//        move(32);
+//        collectGlyphs();
+//        move(-32);
+//        dropGlyphs();
     }
 
     public void hitGem() {
-        //Arm out
-        if (readColor() == "blue") {
-            // move to blue
-        } else if (readColor() == "red") {
-            // move to blue
+        //Arm out TODO
+        readColor();
+        if (color.equals("blue")) {
+            move(-4);
+        } else if (color.equals("red")) {
+            move(4);
+        } else {
+            //Arm in TODO
+            return;
         }
-        //Arm in
+        //Arm in TODO
+        if (color.equals("blue")) {
+            move(4);
+        } else if (color.equals("red")) {
+            move(-4);
+        }
     }
 
-    public void moveToCryptobox() {
-
-    }
-
+    // Move inputted amount of inches
     public void move(double inches) {
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
-        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        frontRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        backLeftTarget = robot.backLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        backRightTarget = robot.backRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        frontRightTarget = robot.frontRightDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        backLeftTarget = robot.backLeftDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        backRightTarget = robot.backRightDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
         robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
         robot.frontRightDrive.setTargetPosition(frontRightTarget);
         robot.backLeftDrive.setTargetPosition(backLeftTarget);
@@ -111,14 +120,19 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         reset();
     }
 
-    public void strafe(double inches) {
+    // Rotate inputted amount of degrees TODO
+    public void rotate(double degrees) {
+        reset();
+        double arc = degrees / 360.0;
+        double rotateInches = CIRCUMFERENCE * arc;
+
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
-        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
-        frontRightTarget = robot.frontRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        backLeftTarget = robot.backLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        backRightTarget = robot.backRightDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
+        frontRightTarget = robot.frontRightDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
+        backLeftTarget = robot.backLeftDrive.getCurrentPosition() + (int)(rotateInches * COUNTS_PER_INCH);
+        backRightTarget = robot.backRightDrive.getCurrentPosition() - (int)(rotateInches * COUNTS_PER_INCH);
         robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
         robot.frontRightDrive.setTargetPosition(frontRightTarget);
         robot.backLeftDrive.setTargetPosition(backLeftTarget);
@@ -130,7 +144,50 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // Move (Might have TODO invert)
+        // Move
+        robot.frontLeftDrive.setPower(SPEED);
+        robot.frontRightDrive.setPower(SPEED);
+        robot.backLeftDrive.setPower(SPEED);
+        robot.backRightDrive.setPower(SPEED);
+
+        // Keep in motion (Show how much is still left)
+        while (opModeIsActive() && robot.frontLeftDrive.isBusy() && robot.frontRightDrive.isBusy() && robot.backLeftDrive.isBusy() && robot.backRightDrive.isBusy()) {
+            telemetry.addData("Remaining (FL)", frontLeftTarget - robot.frontLeftDrive.getCurrentPosition());
+            telemetry.addData("Remaining (FR)", frontRightTarget - robot.frontRightDrive.getCurrentPosition());
+            telemetry.addData("Remaining (BL)", backLeftTarget - robot.backLeftDrive.getCurrentPosition());
+            telemetry.addData("Remaining (BR)", backRightTarget - robot.backRightDrive.getCurrentPosition());
+            telemetry.update();
+        }
+
+        // Stop all motion
+        robot.frontLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        reset();
+    }
+
+    // Strafe inputted amount of inches
+    public void strafe(double inches) {
+        int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
+
+        // Set new position
+        frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        frontRightTarget = robot.frontRightDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        backLeftTarget = robot.backLeftDrive.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+        backRightTarget = robot.backRightDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
+        robot.frontRightDrive.setTargetPosition(frontRightTarget);
+        robot.backLeftDrive.setTargetPosition(backLeftTarget);
+        robot.backRightDrive.setTargetPosition(backRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Move
         robot.frontLeftDrive.setPower(SPEED);
         robot.frontRightDrive.setPower(SPEED);
         robot.backLeftDrive.setPower(SPEED);
@@ -168,7 +225,29 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public String readColor() {
+    // Run harvester
+    public void collectGlyphs() {
+        robot.frontStructure.setPosition(0);
+        runtime.reset();
+        while (runtime.seconds() < 2) {
+            robot.harvesterLeft.setPower(-.5);
+            robot.harvesterRight.setPower(-.5);
+        }
+    }
+
+    // Flip back structure
+    public void dropGlyphs() {
+        robot.backLeftStructure.setPosition(-1);
+        robot.backRightStructure.setPosition(1);
+
+        sleep(1000);
+
+        robot.backLeftStructure.setPosition(1);
+        robot.backRightStructure.setPosition(-1);
+    }
+
+    // Return color detected by the sensor
+    public void readColor() {
         // Store HSV Values
         float hsvValues[] = {0F, 0F, 0F};
 
@@ -190,14 +269,13 @@ public class Auto_Mecanum_Red extends LinearOpMode {
             // Considered adding a timer just to confirm that the color is accurate
             if (colorSensor.red() > colorSensor.blue()) { // Condition for RED
                 if (runtime.seconds() > 1) {
-                    return "red";
+                    color = "red";
                 }
             } else if (colorSensor.blue() > colorSensor.red()) { // Condition for BLUE
                 if (runtime.seconds() > 1) {
-                    return "blue";
+                    color = "blue";
                 }
             }
         }
-        return "";
     }
 }

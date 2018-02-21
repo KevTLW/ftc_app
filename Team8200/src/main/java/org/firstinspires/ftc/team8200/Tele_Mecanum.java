@@ -18,9 +18,12 @@ public class Tele_Mecanum extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Drive variables
-        double leftSpeed, rightSpeed;
+        double leftSpeed, rightSpeed,
+               harvesterIn, harvesterOut;
+
         boolean leftStrafe, rightStrafe;
-        double frontStructure = .7;
+
+        double arm = 0;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -53,18 +56,32 @@ public class Tele_Mecanum extends LinearOpMode {
                 robot.backRightDrive.setPower(-.75);
             }
 
+            // Arm positioning TODO
+            if (gamepad1.y) {
+                arm +=.05;
+            } else if (gamepad1.a) {
+                arm -= .05;
+            }
+
+            robot.arm.setPosition(arm);
+
+            telemetry.addData("Arm: ", arm);
+            telemetry.update();
+
             /* Player 2 */
 
             // Harvester
-            if (gamepad2.left_bumper) {
-                robot.harvesterLeft.setPower(0);
-                robot.harvesterRight.setPower(0);
-            } else if (gamepad2.right_bumper) {
-                robot.harvesterLeft.setPower(-.75);
-                robot.harvesterRight.setPower(-.75);
+            harvesterIn = gamepad2.right_trigger;
+            harvesterOut = gamepad2.left_trigger;
+            if (harvesterIn != 0) {
+                robot.harvesterLeft.setPower(harvesterIn * -.5);
+                robot.harvesterRight.setPower(harvesterIn * -.5);
+            } else if (harvesterOut != 0) {
+                robot.harvesterLeft.setPower(harvesterIn * .5);
+                robot.harvesterRight.setPower(harvesterIn * .5);
             }
 
-            // Flip structure
+            // Flip structures
             if (gamepad2.y) {
                 robot.backLeftStructure.setPosition(-1);
                 robot.backRightStructure.setPosition(1);
@@ -74,16 +91,6 @@ public class Tele_Mecanum extends LinearOpMode {
             } else if (gamepad2.b) {
                 robot.frontStructure.setPosition(0);
             }
-//            if (gamepad2.b) {
-//                frontStructure += .05;
-//            } else if (gamepad2.x) {
-//                frontStructure -= .05;
-//            }
-//
-//            robot.frontStructure.setPosition(frontStructure);
-//
-//            telemetry.addData("F", frontStructure);
-//            telemetry.update();
 
             sleep(40);
         }
