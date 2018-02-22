@@ -48,14 +48,14 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
         move(-2);
         dropGlyphs();
         strafe(8);
-        move(36);
+        move(28);
         collectGlyphs();
-        move(-36);
+        move(-28);
         dropGlyphs();
         strafe(12);
-        move(36);
+        move(28);
         collectGlyphs();
-        move(-36);
+        move(-28);
         dropGlyphs();
     }
 
