@@ -18,8 +18,7 @@ public class Tele_Mecanum extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Drive variables
-        double leftSpeed, rightSpeed,
-               harvester;
+        double leftSpeed, rightSpeed;
 
         boolean leftStrafe, rightStrafe;
 
@@ -62,17 +61,13 @@ public class Tele_Mecanum extends LinearOpMode {
             /* Player 2 */
 
             // Harvester
-            if (gamepad2.left_trigger > 0) {
-                harvester = -gamepad2.left_trigger;
-                robot.harvesterLeft.setPower(harvester * .325);
-                robot.harvesterRight.setPower(harvester * .325);
-            }
-            if (gamepad2.right_trigger > 0) {
-                harvester = gamepad2.right_trigger;
-                robot.harvesterLeft.setPower(harvester * .325);
-                robot.harvesterRight.setPower(harvester * .325);
-            }
-            if (gamepad2.left_trigger > 0 && gamepad2.right_trigger > 0) {
+            if (gamepad2.left_bumper) {
+                robot.harvesterLeft.setPower(-.25);
+                robot.harvesterRight.setPower(-.25);
+            } else if (gamepad2.right_bumper) {
+                robot.harvesterLeft.setPower(.25);
+                robot.harvesterRight.setPower(.25);
+            } else {
                 robot.harvesterLeft.setPower(0);
                 robot.harvesterRight.setPower(0);
             }

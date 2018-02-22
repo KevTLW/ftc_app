@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.team8200;
 
 import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Red Mecanum", group = "Autonomous")
-public class Auto_Mecanum_Red extends LinearOpMode {
+@Autonomous(name = "Blue Mecanum", group = "Autonomous")
+public class Auto_Mecanum_Blue extends LinearOpMode {
     // Import objects used in robot
     MecanumHardware robot = new MecanumHardware();
     private ElapsedTime runtime = new ElapsedTime();
@@ -41,17 +42,17 @@ public class Auto_Mecanum_Red extends LinearOpMode {
 
         // Run methods in sequence
         hitJewel();
-        move(-28);
+        move(28);
         SPEED = -.75;
         rotate(90);
         move(-4);
         dropGlyphs();
-        strafe(-8);
+        strafe(8);
         move(36);
         collectGlyphs();
         move(-36);
         dropGlyphs();
-        strafe(-12);
+        strafe(12);
         move(36);
         collectGlyphs();
         move(-36);
@@ -62,18 +63,18 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.arm.setPosition(.3);
         readColor();
         if (color.equals("blue")) {
-            move(4);
-        } else if (color.equals("red")) {
             move(-4);
+        } else if (color.equals("red")) {
+            move(4);
         } else {
             robot.arm.setPosition(.85);
             return;
         }
         robot.arm.setPosition(.85);
         if (color.equals("blue")) {
-            move(-4);
-        } else if (color.equals("red")) {
             move(4);
+        } else if (color.equals("red")) {
+            move(-4);
         }
     }
 
