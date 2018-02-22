@@ -52,7 +52,7 @@ public class MecanumHardware {
         harvesterRight.setPower(0);
 
         arm.setPosition(.85);
-        frontStructure.setPosition(.275);
+        frontStructure.setPosition(.6);
         backLeftStructure.setPosition(.5);
         backRightStructure.setPosition(-.5);
 

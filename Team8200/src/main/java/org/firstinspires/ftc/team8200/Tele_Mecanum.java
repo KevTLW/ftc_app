@@ -19,10 +19,7 @@ public class Tele_Mecanum extends LinearOpMode {
 
         // Drive variables
         double leftSpeed, rightSpeed;
-
         boolean leftStrafe, rightStrafe;
-
-        double front = 0;
 
         // Wait for "PLAY" to be pressed
         waitForStart();
@@ -40,8 +37,8 @@ public class Tele_Mecanum extends LinearOpMode {
             robot.backRightDrive.setPower(rightSpeed * .75);
 
             // Drive speeds (Strafing)
-            leftStrafe = gamepad1.dpad_left;
-            rightStrafe = gamepad1.dpad_right;
+            leftStrafe = gamepad1.left_bumper;
+            rightStrafe = gamepad1.right_bumper;
             if (leftStrafe) {
                 robot.frontLeftDrive.setPower(.75);
                 robot.frontRightDrive.setPower(-.75);
@@ -79,17 +76,11 @@ public class Tele_Mecanum extends LinearOpMode {
             } else if (gamepad2.a) {
                 robot.backLeftStructure.setPosition(1);
                 robot.backRightStructure.setPosition(-1);
-            } else if (gamepad2.b) {
-                front += .025;
-//                robot.frontStructure.setPosition(0);
-            } else if (gamepad2.x) {
-                front -= .025;
             }
 
-            robot.frontStructure.setPosition(front);
-
-            telemetry.addData("F", front);
-            telemetry.update();
+            if (gamepad2.b) {
+                robot.frontStructure.setPosition(.225);
+            }
 
             sleep(40);
         }

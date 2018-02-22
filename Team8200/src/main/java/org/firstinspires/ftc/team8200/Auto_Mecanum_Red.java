@@ -42,9 +42,8 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         // Run methods in sequence
         hitJewel();
         move(-28);
-        SPEED = -.75;
         rotate(90);
-        move(-4);
+        move(-2);
         dropGlyphs();
         strafe(-8);
         move(36);
@@ -62,18 +61,18 @@ public class Auto_Mecanum_Red extends LinearOpMode {
         robot.arm.setPosition(.3);
         readColor();
         if (color.equals("blue")) {
-            move(4);
+            move(2);
         } else if (color.equals("red")) {
-            move(-4);
+            move(-2);
         } else {
             robot.arm.setPosition(.85);
             return;
         }
         robot.arm.setPosition(.85);
         if (color.equals("blue")) {
-            move(-4);
+            move(-2);
         } else if (color.equals("red")) {
-            move(4);
+            move(2);
         }
     }
 
@@ -229,7 +228,7 @@ public class Auto_Mecanum_Red extends LinearOpMode {
 
     // Run harvester
     public void collectGlyphs() {
-        robot.frontStructure.setPosition(0);
+        robot.frontStructure.setPosition(.225);
         runtime.reset();
         while (opModeIsActive() && runtime.seconds() < 2) {
             robot.harvesterLeft.setPower(-.25);
@@ -239,7 +238,7 @@ public class Auto_Mecanum_Red extends LinearOpMode {
 
     // Flip back structure
     public void dropGlyphs() {
-        robot.frontStructure.setPosition(0);
+        robot.frontStructure.setPosition(.225);
         robot.backLeftStructure.setPosition(-1);
         robot.backRightStructure.setPosition(1);
 
