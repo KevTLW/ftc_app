@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.team8200;
 
 import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -16,7 +15,7 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
     ColorSensor colorSensor;
 
     // Static variables for general use
-    static double SPEED = -.5;
+    static double SPEED = .5;
 
     // Static variables for encoders
     static final double PULSES_PER_REVOLUTION = 280;
@@ -43,22 +42,13 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
         // Run methods in sequence
         hitJewel();
         move(28);
-        SPEED = -.75;
+        setSpeed(.875);
         rotate(90);
         move(-2);
         dropGlyphs();
-        strafe(8);
-        move(28);
-        collectGlyphs();
-        move(-28);
-        dropGlyphs();
-        strafe(12);
-        move(28);
-        collectGlyphs();
-        move(-28);
-        dropGlyphs();
     }
 
+    // Get points for knocking out the jewel
     public void hitJewel() {
         robot.arm.setPosition(.3);
         readColor();
@@ -80,7 +70,6 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
 
     // Move inputted amount of inches
     public void move(double inches) {
-        reset();
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
@@ -119,12 +108,16 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
         robot.frontRightDrive.setPower(0);
         robot.backLeftDrive.setPower(0);
         robot.backRightDrive.setPower(0);
-        reset();
+
+        // Turn off RUN_TO_POSITION
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // Rotate inputted amount of degrees
     public void rotate(double degrees) {
-        reset();
         double arc = degrees / 360.0;
         double rotateInches = CIRCUMFERENCE * arc;
 
@@ -166,12 +159,16 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
         robot.frontRightDrive.setPower(0);
         robot.backLeftDrive.setPower(0);
         robot.backRightDrive.setPower(0);
-        reset();
+
+        // Turn off RUN_TO_POSITION
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // Strafe inputted amount of inches
     public void strafe(double inches) {
-        reset();
         int frontLeftTarget, frontRightTarget, backLeftTarget, backRightTarget;
 
         // Set new position
@@ -210,7 +207,12 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
         robot.frontRightDrive.setPower(0);
         robot.backLeftDrive.setPower(0);
         robot.backRightDrive.setPower(0);
-        reset();
+
+        // Turn off RUN_TO_POSITION
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // Reset encoders
@@ -285,5 +287,10 @@ public class Auto_Mecanum_Blue extends LinearOpMode {
                 }
             }
         }
+    }
+
+    // Set speed
+    public void setSpeed(double speed) {
+        SPEED = speed;
     }
 }
